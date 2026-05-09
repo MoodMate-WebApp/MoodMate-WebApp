@@ -208,7 +208,7 @@ export default function Home() {
             />
             
             {/* Brain Image */}
-            <div className="relative z-10 w-full h-full flex items-center justify-center mix-blend-screen overflow-visible">
+            <div className="relative z-10 w-[200px] sm:w-full h-full flex items-center justify-center mix-blend-screen overflow-visible">
               <motion.img 
                 layout
                 initial={{ scale: 0.8, opacity: 0 }}
