@@ -16,17 +16,77 @@ interface GameConfig {
 }
 
 const UI_MAPPING: Record<string, any> = {
-  'bubble-burst': { image: '/zen_bubble.png', color: '#3b82f6', icon: Wind },
-  'prana-breathe': { image: '/zen_breathe.png', color: '#2dd4bf', icon: Activity },
-  'zen-rain': { image: '/zen_rain.png', color: '#6366f1', icon: CloudRain },
-  'mood-canvas': { image: '/zen_canvas.png', color: '#f43f5e', icon: Palette },
-  'echo-harmony': { image: '/zen_echo.png', color: '#f59e0b', icon: Music },
-  'focus-pulse': { image: '/zen_pulse.png', color: '#8b5cf6', icon: Activity },
-  'emotion-sort': { image: '/zen_sort.png', color: '#10b981', icon: MousePointer2 },
-  'celestial-drift': { image: '/zen_drift.png', color: '#06b6d4', icon: Star },
-  'starlight-connect': { image: '/zen_echo.png', color: '#ec4899', icon: Sparkles },
-  'nature-loop': { image: '/zen_flow.png', color: '#4ade80', icon: Sun },
+  'bubble-burst': { color: '#3b82f6', icon: Wind, animation: 'pulse' },
+  'prana-breathe': { color: '#2dd4bf', icon: Activity, animation: 'float' },
+  'zen-rain': { color: '#6366f1', icon: CloudRain, animation: 'spin' },
+  'mood-canvas': { color: '#f43f5e', icon: Palette, animation: 'pulse' },
+  'echo-harmony': { color: '#f59e0b', icon: Music, animation: 'float' },
+  'focus-pulse': { color: '#8b5cf6', icon: Activity, animation: 'pulse' },
+  'emotion-sort': { color: '#10b981', icon: MousePointer2, animation: 'spin' },
+  'celestial-drift': { color: '#06b6d4', icon: Star, animation: 'float' },
+  'starlight-connect': { color: '#ec4899', icon: Sparkles, animation: 'pulse' },
+  'nature-loop': { color: '#4ade80', icon: Sun, animation: 'float' },
 };
+
+function GameAvatar({ ui, isHovered }: { ui: any, isHovered: boolean }) {
+  const Icon = ui.icon;
+  return (
+    <div className="relative w-full h-full flex items-center justify-center">
+      {/* Dynamic Background Glow */}
+      <motion.div 
+        animate={{ 
+          scale: isHovered ? [1.1, 1.3, 1.1] : [1, 1.2, 1],
+          opacity: isHovered ? [0.4, 0.6, 0.4] : [0.2, 0.4, 0.2]
+        }}
+        transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+        className="absolute w-40 h-40 rounded-full blur-[60px]"
+        style={{ backgroundColor: ui.color }}
+      />
+
+      {/* The Core "Avatar" Sphere */}
+      <motion.div
+        animate={{ 
+          rotate: ui.animation === 'spin' ? 360 : 0,
+          y: ui.animation === 'float' ? [-10, 10, -10] : 0,
+          scale: ui.animation === 'pulse' ? [1, 1.05, 1] : 1
+        }}
+        transition={{ 
+          rotate: { repeat: Infinity, duration: 20, ease: "linear" },
+          y: { repeat: Infinity, duration: 4, ease: "easeInOut" },
+          scale: { repeat: Infinity, duration: 3, ease: "easeInOut" }
+        }}
+        className="relative w-48 h-48 rounded-full border border-white/10 flex items-center justify-center shadow-2xl overflow-hidden backdrop-blur-sm"
+      >
+        <div 
+          className="absolute inset-0 opacity-20"
+          style={{ 
+            background: `radial-gradient(circle at center, ${ui.color} 0%, transparent 70%)` 
+          }}
+        />
+        
+        {/* Abstract Internal Energy */}
+        <motion.div 
+          animate={{ 
+            scale: [1, 1.2, 1],
+            rotate: [0, 90, 0]
+          }}
+          transition={{ repeat: Infinity, duration: 10, ease: "easeInOut" }}
+          className="w-32 h-32 rounded-full border border-white/5 opacity-50"
+        />
+
+        <div className="absolute inset-0 flex items-center justify-center">
+          <Icon 
+            className="w-16 h-16 transition-all duration-700" 
+            style={{ 
+              color: ui.color,
+              filter: `drop-shadow(0 0 20px ${ui.color})`
+            }} 
+          />
+        </div>
+      </motion.div>
+    </div>
+  );
+}
 
 export default function Games() {
   const [catalog, setCatalog] = useState<GameConfig[]>([]);
@@ -88,25 +148,18 @@ export default function Games() {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.02, duration: 0.6 }}
                 whileHover={{ y: -10 }}
+                onMouseEnter={() => setActiveGameId(game.id)}
+                onMouseLeave={() => setActiveGameId(null)}
                 onClick={() => setActiveGameId(game.id)}
-                className="group relative flex flex-col h-[420px] bg-[#030303] border border-white/[0.03] rounded-[3rem] overflow-hidden hover:border-primary-500/30 transition-all duration-700 cursor-pointer shadow-[0_40px_80px_rgba(0,0,0,0.5)]"
+                className="group relative flex flex-col h-[460px] bg-dark-950/40 backdrop-blur-3xl border border-white/5 rounded-[3rem] overflow-hidden hover:border-primary-500/50 transition-all duration-700 cursor-pointer shadow-2xl"
               >
                 {/* Visual Area */}
-                <div className="relative h-[65%] w-full overflow-hidden">
+                <div className="relative h-[65%] w-full overflow-hidden flex items-center justify-center">
                    <div className="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                    
-                   <motion.div
-                     animate={{ y: [0, -8, 0] }}
-                     transition={{ repeat: Infinity, duration: 6 + i, ease: "easeInOut" }}
-                     className="absolute inset-0 flex items-center justify-center p-10"
-                   >
-                     <img 
-                       src={ui.image} 
-                       alt={game.title}
-                       className="w-full h-full object-contain mix-blend-lighten drop-shadow-[0_20px_40px_rgba(0,0,0,0.7)] group-hover:scale-110 transition-transform duration-1000" 
-                     />
-                   </motion.div>
-                   <div className="absolute inset-0 bg-gradient-to-t from-[#030303] via-transparent to-transparent" />
+                   <GameAvatar ui={ui} isHovered={activeGameId === game.id} />
+
+                   <div className="absolute inset-0 bg-gradient-to-t from-dark-950/80 via-transparent to-transparent" />
                 </div>
 
                 {/* Content Area - Ultra Clean */}
