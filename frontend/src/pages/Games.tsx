@@ -16,73 +16,58 @@ interface GameConfig {
 }
 
 const UI_MAPPING: Record<string, any> = {
-  'bubble-burst': { color: '#3b82f6', icon: Wind, animation: 'pulse' },
-  'prana-breathe': { color: '#2dd4bf', icon: Activity, animation: 'float' },
-  'zen-rain': { color: '#6366f1', icon: CloudRain, animation: 'spin' },
-  'mood-canvas': { color: '#f43f5e', icon: Palette, animation: 'pulse' },
-  'echo-harmony': { color: '#f59e0b', icon: Music, animation: 'float' },
-  'focus-pulse': { color: '#8b5cf6', icon: Activity, animation: 'pulse' },
-  'emotion-sort': { color: '#10b981', icon: MousePointer2, animation: 'spin' },
-  'celestial-drift': { color: '#06b6d4', icon: Star, animation: 'float' },
-  'starlight-connect': { color: '#ec4899', icon: Sparkles, animation: 'pulse' },
-  'nature-loop': { color: '#4ade80', icon: Sun, animation: 'float' },
+  'bubble-burst': { color: '#3b82f6', icon: Wind, animation: 'pulse', image: '/zen_bubble.png' },
+  'prana-breathe': { color: '#2dd4bf', icon: Activity, animation: 'float', image: '/zen_breathe.png' },
+  'zen-rain': { color: '#6366f1', icon: CloudRain, animation: 'spin', image: '/zen_rain.png' },
+  'mood-canvas': { color: '#f43f5e', icon: Palette, animation: 'pulse', image: '/zen_canvas.png' },
+  'echo-harmony': { color: '#f59e0b', icon: Music, animation: 'float', image: '/zen_echo.png' },
+  'focus-pulse': { color: '#8b5cf6', icon: Activity, animation: 'pulse', image: '/zen_pulse.png' },
+  'emotion-sort': { color: '#10b981', icon: MousePointer2, animation: 'spin', image: '/zen_sort.png' },
+  'celestial-drift': { color: '#06b6d4', icon: Star, animation: 'float', image: '/zen_drift.png' },
+  'starlight-connect': { color: '#ec4899', icon: Sparkles, animation: 'pulse', image: '/zen_starlight.png' },
+  'nature-loop': { color: '#4ade80', icon: Sun, animation: 'float', image: '/zen_nature.png' },
 };
 
 function GameAvatar({ ui, isHovered }: { ui: any, isHovered: boolean }) {
-  const Icon = ui.icon;
   return (
     <div className="relative w-full h-full flex items-center justify-center">
       {/* Dynamic Background Glow */}
       <motion.div 
         animate={{ 
-          scale: isHovered ? [1.1, 1.3, 1.1] : [1, 1.2, 1],
-          opacity: isHovered ? [0.4, 0.6, 0.4] : [0.2, 0.4, 0.2]
+          scale: isHovered ? [1.1, 1.4, 1.1] : [1, 1.2, 1],
+          opacity: isHovered ? [0.5, 0.8, 0.5] : [0.3, 0.5, 0.3]
         }}
         transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-        className="absolute w-40 h-40 rounded-full blur-[60px]"
+        className="absolute w-48 h-48 rounded-full blur-[70px]"
         style={{ backgroundColor: ui.color }}
       />
 
-      {/* The Core "Avatar" Sphere */}
+      {/* The Core 3D Image Avatar */}
       <motion.div
         animate={{ 
           rotate: ui.animation === 'spin' ? 360 : 0,
-          y: ui.animation === 'float' ? [-10, 10, -10] : 0,
-          scale: ui.animation === 'pulse' ? [1, 1.05, 1] : 1
+          y: ui.animation === 'float' ? [-15, 15, -15] : 0,
+          scale: ui.animation === 'pulse' ? [1, 1.08, 1] : 1
         }}
         transition={{ 
-          rotate: { repeat: Infinity, duration: 20, ease: "linear" },
-          y: { repeat: Infinity, duration: 4, ease: "easeInOut" },
-          scale: { repeat: Infinity, duration: 3, ease: "easeInOut" }
+          rotate: { repeat: Infinity, duration: 30, ease: "linear" },
+          y: { repeat: Infinity, duration: 5, ease: "easeInOut" },
+          scale: { repeat: Infinity, duration: 4, ease: "easeInOut" }
         }}
-        className="relative w-48 h-48 rounded-full border border-white/10 flex items-center justify-center shadow-2xl overflow-hidden backdrop-blur-sm"
+        className="relative w-56 h-56 flex items-center justify-center"
       >
-        <div 
-          className="absolute inset-0 opacity-20"
-          style={{ 
-            background: `radial-gradient(circle at center, ${ui.color} 0%, transparent 70%)` 
-          }}
+        <img 
+          src={ui.image} 
+          alt="Game Icon"
+          className="w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)] group-hover:scale-110 transition-transform duration-1000 select-none pointer-events-none"
         />
         
-        {/* Abstract Internal Energy */}
+        {/* Subtle Internal Energy Overlay */}
         <motion.div 
-          animate={{ 
-            scale: [1, 1.2, 1],
-            rotate: [0, 90, 0]
-          }}
-          transition={{ repeat: Infinity, duration: 10, ease: "easeInOut" }}
-          className="w-32 h-32 rounded-full border border-white/5 opacity-50"
+          animate={{ opacity: [0.1, 0.3, 0.1] }}
+          transition={{ repeat: Infinity, duration: 3 }}
+          className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent rounded-full pointer-events-none"
         />
-
-        <div className="absolute inset-0 flex items-center justify-center">
-          <Icon 
-            className="w-16 h-16 transition-all duration-700" 
-            style={{ 
-              color: ui.color,
-              filter: `drop-shadow(0 0 20px ${ui.color})`
-            }} 
-          />
-        </div>
       </motion.div>
     </div>
   );
