@@ -93,12 +93,13 @@ export default function About() {
             >
               <div className="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
               
-              <div className="w-32 h-32 rounded-full mb-8 relative z-10 p-1 bg-white/[0.02] border border-white/10 shadow-inner group-hover:scale-105 transition-transform duration-500">
-                <img 
-                  src={member.avatar} 
-                  alt={member.name} 
-                  className="w-full h-full rounded-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-                />
+              <div className="w-32 h-32 rounded-full mb-8 relative z-10 p-1 bg-white/[0.02] border border-white/10 shadow-inner group-hover:scale-105 transition-transform duration-500 flex items-center justify-center overflow-hidden">
+                <div 
+                  className="w-full h-full rounded-full flex items-center justify-center text-3xl font-black text-white italic opacity-40 group-hover:opacity-100 transition-opacity"
+                  style={{ background: `linear-gradient(135deg, ${member.color}44, ${member.color}88)` }}
+                >
+                  {member.name.split(' ').map(n => n[0]).join('')}
+                </div>
                 <div className="absolute -bottom-2 -right-2 w-10 h-10 rounded-full bg-black border border-white/10 flex items-center justify-center shadow-2xl">
                    <Code className="w-4 h-4 text-primary-400" />
                 </div>

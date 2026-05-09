@@ -110,7 +110,7 @@ export default function History() {
     <div className="flex flex-col w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-44 pb-10 relative">
       
       {/* 1. Header & Stats Section */}
-      <div className="flex flex-col lg:flex-row justify-between items-end gap-8 mb-16">
+      <div className="flex flex-col lg:flex-row justify-between items-center sm:items-end gap-8 mb-16">
         <div className="w-full lg:w-auto">
           <motion.div
             initial={{ opacity: 0, x: -20 }}

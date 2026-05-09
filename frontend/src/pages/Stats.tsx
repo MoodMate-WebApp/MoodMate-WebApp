@@ -212,7 +212,7 @@ export default function Stats() {
         <motion.div 
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="lg:col-span-8 bg-dark-950/40 backdrop-blur-3xl border border-white/5 p-8 rounded-[3rem] shadow-2xl relative overflow-hidden"
+          className="lg:col-span-8 bg-dark-950/40 backdrop-blur-3xl border border-white/5 p-6 sm:p-8 rounded-[2rem] sm:rounded-[3rem] shadow-2xl relative overflow-hidden"
         >
           <div className="flex items-center justify-between mb-12">
              <div className="flex items-center gap-4">
@@ -234,7 +234,7 @@ export default function Stats() {
              </div>
           </div>
 
-          <div className="h-[400px] w-full">
+          <div className="h-[300px] sm:h-[400px] w-full">
             {loading ? (
               <Skeleton height="100%" borderRadius="2rem" />
             ) : (

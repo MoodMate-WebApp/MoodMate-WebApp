@@ -102,7 +102,7 @@ export default function Home() {
             <Sparkles className="w-3.5 h-3.5" />
           </motion.div>
           
-          <h1 className="text-5xl sm:text-6xl lg:text-[5.5rem] font-black tracking-tighter leading-[0.95] mb-8 text-white text-left">
+          <h1 className="text-4xl sm:text-6xl lg:text-[5.5rem] font-black tracking-tighter leading-[0.95] mb-8 text-white text-center lg:text-left">
             <motion.span
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
@@ -133,7 +133,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.8 }}
-            className="text-lg md:text-xl text-slate-400 mb-12 max-w-lg leading-relaxed font-light text-left"
+            className="text-lg md:text-xl text-slate-400 mb-12 max-w-lg leading-relaxed font-light text-center lg:text-left"
           >
             {t('heroDesc')}
           </motion.p>
@@ -148,7 +148,7 @@ export default function Home() {
             <motion.div
               whileHover={{ scale: 1.02, y: -2 }}
               whileTap={{ scale: 0.98 }}
-              className="w-full sm:w-auto"
+              className="w-full sm:w-auto max-w-sm sm:max-w-none"
             >
               {user ? (
                 <Link
@@ -212,7 +212,7 @@ export default function Home() {
               <img 
                 src="/brain.png" 
                 alt="AI Brain" 
-                className="w-full h-full object-contain drop-shadow-[0_0_50px_rgba(99,102,241,0.3)] scale-125"
+                className="w-full h-full object-contain drop-shadow-[0_0_50px_rgba(99,102,241,0.3)] scale-100 sm:scale-110 lg:scale-125"
                 style={{ mixBlendMode: 'screen' }}
               />
               

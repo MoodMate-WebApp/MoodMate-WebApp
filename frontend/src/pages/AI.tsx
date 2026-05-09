@@ -208,7 +208,7 @@ export default function AI() {
            <motion.div 
              animate={{ y: [0, -10, 0] }}
              transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-             className="absolute top-[15%] left-0 z-20 flex items-center gap-2 bg-dark-800/80 backdrop-blur-md border border-green-500/30 px-4 py-2 rounded-full shadow-[0_0_20px_rgba(34,197,94,0.2)]"
+             className="absolute top-[15%] left-[-10%] sm:left-0 z-20 hidden xs:flex items-center gap-2 bg-dark-800/80 backdrop-blur-md border border-green-500/30 px-4 py-2 rounded-full shadow-[0_0_20px_rgba(34,197,94,0.2)]"
            >
               <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center text-[10px]">😊</div>
               <span className="text-white text-xs font-bold">Positive</span>
@@ -217,7 +217,7 @@ export default function AI() {
            <motion.div 
              animate={{ y: [0, 10, 0] }}
              transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
-             className="absolute top-[10%] right-0 z-20 flex items-center gap-2 bg-dark-800/80 backdrop-blur-md border border-yellow-500/30 px-4 py-2 rounded-full shadow-[0_0_20px_rgba(234,179,8,0.2)]"
+             className="absolute top-[10%] right-[-10%] sm:right-0 z-20 hidden xs:flex items-center gap-2 bg-dark-800/80 backdrop-blur-md border border-yellow-500/30 px-4 py-2 rounded-full shadow-[0_0_20px_rgba(234,179,8,0.2)]"
            >
               <div className="w-5 h-5 rounded-full bg-yellow-500 flex items-center justify-center text-[10px]">😐</div>
               <span className="text-white text-xs font-bold">Neutral</span>
@@ -226,7 +226,7 @@ export default function AI() {
            <motion.div 
              animate={{ y: [0, -12, 0] }}
              transition={{ repeat: Infinity, duration: 4.5, ease: "easeInOut" }}
-             className="absolute bottom-[20%] right-[-5%] z-20 flex items-center gap-2 bg-dark-800/80 backdrop-blur-md border border-red-500/30 px-4 py-2 rounded-full shadow-[0_0_20px_rgba(239,68,68,0.2)]"
+             className="absolute bottom-[20%] right-[-15%] sm:right-[-5%] z-20 hidden xs:flex items-center gap-2 bg-dark-800/80 backdrop-blur-md border border-red-500/30 px-4 py-2 rounded-full shadow-[0_0_20px_rgba(239,68,68,0.2)]"
            >
               <div className="w-5 h-5 rounded-full bg-red-500 flex items-center justify-center text-[10px]">😔</div>
               <span className="text-white text-xs font-bold">Negative</span>

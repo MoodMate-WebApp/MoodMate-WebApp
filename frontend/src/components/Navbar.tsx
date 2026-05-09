@@ -26,7 +26,7 @@ export default function Navbar() {
         
         {/* Logo */}
         <div className="flex items-center">
-          <Link to="/" className="flex items-center gap-3 group">
+          <Link to="/" className="flex items-center gap-4 group">
           <div className="relative w-10 h-10 flex items-center justify-center">
             <motion.div
               whileHover={{ scale: 1.1, rotate: 5 }}
@@ -82,14 +82,14 @@ export default function Navbar() {
         </div>
  
         {/* Action Buttons */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4 sm:gap-6">
           {user ? (
             <motion.div 
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               className="flex items-center gap-4 bg-white/5 hover:bg-white/10 border border-white/5 rounded-2xl px-2 py-1.5 transition-all duration-500 group/profile"
             >
-              <div className="hidden sm:flex flex-col items-end ml-2">
+              <div className="hidden sm:flex flex-col items-end mr-3">
                 <span className="text-xs font-bold text-white tracking-tight">{user.user_metadata?.display_name?.split(' ')[0] || 'User'}</span>
               </div>
               <Link to="/profile" className="relative">
@@ -131,7 +131,7 @@ export default function Navbar() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="absolute top-28 left-4 right-4 bg-dark-950/95 backdrop-blur-3xl border border-white/10 rounded-[2rem] p-6 shadow-2xl lg:hidden pointer-events-auto"
+            className="absolute top-24 left-4 right-4 bg-dark-950/98 backdrop-blur-3xl border border-white/10 rounded-[2.5rem] p-8 shadow-[0_20px_80px_rgba(0,0,0,0.8)] lg:hidden pointer-events-auto"
           >
             <div className="flex flex-col gap-2">
               {navLinks.map((link) => {
