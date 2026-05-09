@@ -100,7 +100,7 @@ export default function Signup() {
             </p>
           </div>
 
-          <div className="relative w-full max-w-md aspect-square mb-16 mx-auto lg:mx-0">
+          <div className="relative w-full max-w-[200px] sm:max-w-md aspect-square mb-16 mx-auto lg:mx-0">
              <div className="absolute inset-0 bg-indigo-600/20 blur-[120px] rounded-full scale-90 pointer-events-none" />
              <motion.img 
                layout

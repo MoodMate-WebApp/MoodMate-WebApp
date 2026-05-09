@@ -187,7 +187,7 @@ export default function Home() {
         </div>
 
         {/* Brain Visual Content */}
-        <div className="flex-1 relative w-full flex justify-center items-center h-[400px] lg:h-[600px] z-10">
+        <div className="flex-1 relative w-full flex justify-center items-center h-[280px] sm:h-[400px] lg:h-[600px] z-10">
           <motion.div
             animate={{ 
               y: [-20, 20, -20],
