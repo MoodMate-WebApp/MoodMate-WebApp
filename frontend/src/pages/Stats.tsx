@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { 
   PieChart, Pie, Cell, XAxis, YAxis, Tooltip, 
-  ResponsiveContainer, AreaChart, Area, CartesianGrid
+  ResponsiveContainer, AreaChart, Area, CartesianGrid,
+  BarChart, Bar, Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis
 } from 'recharts';
 import { BarChart3, Activity, Zap, Heart, Calendar, ArrowUpRight, Info } from 'lucide-react';
 import api from '../services/api';
@@ -103,11 +104,11 @@ export default function Stats() {
             { name: 'Negative', value: negative, color: '#ef4444' },
           ],
           lineData: s.entries.length > 0 ? s.entries.map((e: any) => ({
-            day: new Date(e.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-            positive: (e.mood || '').toLowerCase().includes('positive') ? 1 : 0,
-            neutral: (e.mood || '').toLowerCase().includes('neutral') ? 1 : 0,
-            negative: (e.mood || '').toLowerCase().includes('negative') ? 1 : 0,
-          })).reverse() : [],
+             day: new Date(e.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+             intensity: e.intensity || 5,
+             sentiment: (e.mood || '').toLowerCase(),
+             fullDate: new Date(e.created_at).toLocaleString()
+           })).reverse() : [],
           weeklyActivity,
           insights: pctPositive > 60 
             ? "Your emotional baseline is exceptionally high this week! You're showing great resilience."
@@ -224,12 +225,8 @@ export default function Stats() {
              </div>
              <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
                 <div className="flex items-center gap-2">
-                   <div className="w-3 h-3 rounded-full bg-green-500/40 border border-green-500" />
-                   <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Positive</span>
-                </div>
-                <div className="flex items-center gap-2">
-                   <div className="w-3 h-3 rounded-full bg-red-500/40 border border-red-500" />
-                   <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Negative</span>
+                   <div className="w-3 h-3 rounded-full bg-primary-500" />
+                   <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Intensity Level</span>
                 </div>
              </div>
           </div>
@@ -239,46 +236,57 @@ export default function Stats() {
               <Skeleton height="100%" borderRadius="2rem" />
             ) : (
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={stats?.lineData}>
-                  <defs>
-                    <linearGradient id="colorPos" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#22c55e" stopOpacity={0.2}/>
-                      <stop offset="95%" stopColor="#22c55e" stopOpacity={0}/>
-                    </linearGradient>
-                    <linearGradient id="colorNeg" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#ef4444" stopOpacity={0.2}/>
-                      <stop offset="95%" stopColor="#ef4444" stopOpacity={0}/>
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.03)" />
-                  <XAxis 
-                    dataKey="day" 
-                    axisLine={false} 
-                    tickLine={false} 
-                    tick={{ fill: '#475569', fontSize: 10, fontWeight: 900 }}
-                    dy={20}
-                  />
-                  <YAxis hide />
-                  <Tooltip content={<CustomTooltip />} />
-                  <Area 
-                    type="monotone" 
-                    dataKey="positive" 
-                    stroke="#22c55e" 
-                    strokeWidth={4}
-                    fillOpacity={1} 
-                    fill="url(#colorPos)" 
-                    animationDuration={2500}
-                  />
-                  <Area 
-                    type="monotone" 
-                    dataKey="negative" 
-                    stroke="#ef4444" 
-                    strokeWidth={4}
-                    fillOpacity={1} 
-                    fill="url(#colorNeg)" 
-                    animationDuration={3000}
-                  />
-                </AreaChart>
+                 <AreaChart data={stats?.lineData}>
+                   <defs>
+                     <linearGradient id="colorIntensity" x1="0" y1="0" x2="0" y2="1">
+                       <stop offset="5%" stopColor="#6366f1" stopOpacity={0.3}/>
+                       <stop offset="95%" stopColor="#6366f1" stopOpacity={0}/>
+                     </linearGradient>
+                   </defs>
+                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.03)" />
+                   <XAxis 
+                     dataKey="day" 
+                     axisLine={false} 
+                     tickLine={false} 
+                     tick={{ fill: '#475569', fontSize: 10, fontWeight: 900 }}
+                     dy={20}
+                   />
+                   <YAxis 
+                     domain={[0, 10]} 
+                     axisLine={false} 
+                     tickLine={false} 
+                     tick={{ fill: '#475569', fontSize: 10, fontWeight: 900 }}
+                   />
+                   <Tooltip 
+                     content={({ active, payload }) => {
+                       if (active && payload && payload.length) {
+                         const data = payload[0].payload;
+                         return (
+                           <div className="bg-dark-950/95 backdrop-blur-2xl border border-white/10 p-4 rounded-2xl shadow-2xl">
+                             <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mb-2">{data.fullDate}</p>
+                             <div className="flex items-center gap-3">
+                               <div className="w-2 h-2 rounded-full bg-primary-500" />
+                               <span className="text-xs font-bold text-white">Intensity: {data.intensity}/10</span>
+                             </div>
+                             <p className="text-[10px] font-black uppercase tracking-widest mt-2" style={{ color: data.sentiment === 'positive' ? '#22c55e' : data.sentiment === 'negative' ? '#ef4444' : '#facc15' }}>
+                               {data.sentiment}
+                             </p>
+                           </div>
+                         );
+                       }
+                       return null;
+                     }} 
+                   />
+                   <Area 
+                     type="monotone" 
+                     dataKey="intensity" 
+                     stroke="#6366f1" 
+                     strokeWidth={4}
+                     fillOpacity={1} 
+                     fill="url(#colorIntensity)" 
+                     animationDuration={2500}
+                   />
+                 </AreaChart>
               </ResponsiveContainer>
             )}
           </div>
@@ -287,53 +295,37 @@ export default function Stats() {
         {/* Sidebar: Distribution & Insights */}
         <div className="lg:col-span-4 flex flex-col gap-8">
            
-           {/* Distribution Pie */}
+           {/* Emotional Palette Radar */}
            <motion.div 
              initial={{ opacity: 0, x: 20 }}
              animate={{ opacity: 1, x: 0 }}
              className="bg-dark-950/40 backdrop-blur-3xl border border-white/5 p-8 rounded-[3rem] shadow-2xl flex-1"
            >
-              <h3 className="text-xl font-black text-white mb-8 uppercase tracking-tight">Distribution</h3>
-              <div className="h-[250px] w-full relative">
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie
-                      data={stats?.pieData}
-                      innerRadius={70}
-                      outerRadius={90}
-                      paddingAngle={8}
-                      dataKey="value"
-                      stroke="none"
-                    >
-                      {stats?.pieData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
-                      ))}
-                    </Pie>
-                    <Tooltip />
-                  </PieChart>
-                </ResponsiveContainer>
-                <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                   <p className="text-4xl font-black text-white tracking-tighter">{stats?.total}</p>
-                   <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Total Entries</p>
-                </div>
-              </div>
+              <h3 className="text-xl font-black text-white mb-4 uppercase tracking-tight">Emotional Palette</h3>
+              <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-8">Intensity Profile</p>
               
-              <div className="grid grid-cols-3 gap-2 mt-8">
-                 {stats?.pieData.map(d => (
-                   <div key={d.name} className="flex flex-col items-center p-3 bg-white/5 rounded-2xl border border-white/5">
-                      <div className="w-1.5 h-1.5 rounded-full mb-2" style={{ backgroundColor: d.color }} />
-                      <span className="text-[9px] font-black uppercase tracking-widest text-slate-500">{d.name}</span>
-                      <span className="text-xs font-bold text-white mt-1">{d.value}</span>
-                   </div>
-                 ))}
+              <div className="h-[250px] w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <RadarChart cx="50%" cy="50%" outerRadius="80%" data={stats?.pieData}>
+                    <PolarGrid stroke="rgba(255,255,255,0.05)" />
+                    <PolarAngleAxis dataKey="name" tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 900 }} />
+                    <Radar
+                      name="Mood"
+                      dataKey="value"
+                      stroke="#6366f1"
+                      fill="#6366f1"
+                      fillOpacity={0.6}
+                    />
+                  </RadarChart>
+                </ResponsiveContainer>
               </div>
            </motion.div>
-
+ 
            {/* AI Insight Card */}
            <motion.div 
              initial={{ opacity: 0, y: 20 }}
              animate={{ opacity: 1, y: 0 }}
-             className="bg-gradient-to-br from-primary-600 to-accent-600 p-8 rounded-[3rem] shadow-2xl text-white relative overflow-hidden group"
+             className="bg-gradient-to-br from-indigo-600 to-purple-600 p-8 rounded-[3rem] shadow-2xl text-white relative overflow-hidden group"
            >
               <div className="absolute top-0 right-0 p-8 opacity-20 group-hover:rotate-12 transition-transform">
                  <Zap className="w-12 h-12" />
@@ -347,7 +339,6 @@ export default function Stats() {
                   "{stats?.insights}"
                 </p>
               </div>
-              <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
            </motion.div>
         </div>
       </div>
