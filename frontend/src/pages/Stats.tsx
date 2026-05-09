@@ -68,7 +68,8 @@ export default function Stats() {
             value: 0,
             mood: 'neutral' as 'positive' | 'negative' | 'neutral',
             posCount: 0,
-            negCount: 0
+            negCount: 0,
+            neuCount: 0
           };
         });
 
@@ -80,14 +81,19 @@ export default function Stats() {
             dayObj.value += 1;
             const mood = (e.mood || '').toLowerCase();
             if (mood.includes('positive')) dayObj.posCount += 1;
-            if (mood.includes('negative')) dayObj.negCount += 1;
+            else if (mood.includes('negative')) dayObj.negCount += 1;
+            else dayObj.neuCount += 1;
           }
         });
 
         const weeklyActivity = last28Days.map(d => ({
           day: d.dateStr,
+          dateLabel: new Date(d.dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
           value: d.value,
-          mood: d.posCount >= d.negCount ? 'positive' : 'negative'
+          mood: d.posCount >= d.negCount ? (d.posCount >= d.neuCount ? 'positive' : 'neutral') : (d.negCount >= d.neuCount ? 'negative' : 'neutral'),
+          positive: d.posCount,
+          negative: d.negCount,
+          neutral: d.neuCount
         }));
 
         const pctPositive = total > 0 ? (positive / total) * 100 : 0;
@@ -103,12 +109,7 @@ export default function Stats() {
             { name: 'Neutral',  value: neutral, color: '#eab308' },
             { name: 'Negative', value: negative, color: '#ef4444' },
           ],
-          lineData: s.entries.length > 0 ? s.entries.map((e: any) => ({
-             day: new Date(e.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-             intensity: e.intensity || 5,
-             sentiment: (e.mood || '').toLowerCase(),
-             fullDate: new Date(e.created_at).toLocaleString()
-           })).reverse() : [],
+          lineData: weeklyActivity.filter(w => w.value > 0),
           weeklyActivity,
           insights: pctPositive > 60 
             ? "Your emotional baseline is exceptionally high this week! You're showing great resilience."
@@ -224,10 +225,18 @@ export default function Stats() {
                 </div>
              </div>
              <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
-                <div className="flex items-center gap-2">
-                   <div className="w-3 h-3 rounded-full bg-primary-500" />
-                   <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Intensity Level</span>
-                </div>
+               <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full bg-green-500" />
+                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Positive</span>
+               </div>
+               <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full bg-yellow-500" />
+                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Neutral</span>
+               </div>
+               <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full bg-red-500" />
+                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Negative</span>
+               </div>
              </div>
           </div>
 
@@ -236,57 +245,47 @@ export default function Stats() {
               <Skeleton height="100%" borderRadius="2rem" />
             ) : (
               <ResponsiveContainer width="100%" height="100%">
-                 <AreaChart data={stats?.lineData}>
-                   <defs>
-                     <linearGradient id="colorIntensity" x1="0" y1="0" x2="0" y2="1">
-                       <stop offset="5%" stopColor="#6366f1" stopOpacity={0.3}/>
-                       <stop offset="95%" stopColor="#6366f1" stopOpacity={0}/>
-                     </linearGradient>
-                   </defs>
-                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.03)" />
-                   <XAxis 
-                     dataKey="day" 
-                     axisLine={false} 
-                     tickLine={false} 
-                     tick={{ fill: '#475569', fontSize: 10, fontWeight: 900 }}
-                     dy={20}
-                   />
-                   <YAxis 
-                     domain={[0, 10]} 
-                     axisLine={false} 
-                     tickLine={false} 
-                     tick={{ fill: '#475569', fontSize: 10, fontWeight: 900 }}
-                   />
-                   <Tooltip 
-                     content={({ active, payload }) => {
-                       if (active && payload && payload.length) {
-                         const data = payload[0].payload;
-                         return (
-                           <div className="bg-dark-950/95 backdrop-blur-2xl border border-white/10 p-4 rounded-2xl shadow-2xl">
-                             <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mb-2">{data.fullDate}</p>
-                             <div className="flex items-center gap-3">
-                               <div className="w-2 h-2 rounded-full bg-primary-500" />
-                               <span className="text-xs font-bold text-white">Intensity: {data.intensity}/10</span>
-                             </div>
-                             <p className="text-[10px] font-black uppercase tracking-widest mt-2" style={{ color: data.sentiment === 'positive' ? '#22c55e' : data.sentiment === 'negative' ? '#ef4444' : '#facc15' }}>
-                               {data.sentiment}
-                             </p>
-                           </div>
-                         );
-                       }
-                       return null;
-                     }} 
-                   />
-                   <Area 
-                     type="monotone" 
-                     dataKey="intensity" 
-                     stroke="#6366f1" 
-                     strokeWidth={4}
-                     fillOpacity={1} 
-                     fill="url(#colorIntensity)" 
-                     animationDuration={2500}
-                   />
-                 </AreaChart>
+                <BarChart data={stats?.lineData}>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.03)" />
+                  <XAxis 
+                    dataKey="dateLabel" 
+                    axisLine={false} 
+                    tickLine={false} 
+                    tick={{ fill: '#475569', fontSize: 10, fontWeight: 900 }}
+                    dy={20}
+                  />
+                  <YAxis 
+                    axisLine={false} 
+                    tickLine={false} 
+                    tick={{ fill: '#475569', fontSize: 10, fontWeight: 900 }}
+                  />
+                  <Tooltip 
+                    content={({ active, payload, label }) => {
+                      if (active && payload && payload.length) {
+                        return (
+                          <div className="bg-dark-950/95 backdrop-blur-2xl border border-white/10 p-4 rounded-2xl shadow-2xl">
+                            <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mb-3">{label}</p>
+                            <div className="space-y-2">
+                              {payload.map((p: any) => (
+                                <div key={p.name} className="flex items-center justify-between gap-8">
+                                  <div className="flex items-center gap-2">
+                                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: p.color }} />
+                                    <span className="text-xs font-bold text-slate-400 capitalize">{p.name}</span>
+                                  </div>
+                                  <span className="text-xs font-black text-white">{p.value}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        );
+                      }
+                      return null;
+                    }} 
+                  />
+                  <Bar dataKey="positive" stackId="a" fill="#22c55e" radius={[0, 0, 0, 0]} />
+                  <Bar dataKey="neutral" stackId="a" fill="#eab308" radius={[0, 0, 0, 0]} />
+                  <Bar dataKey="negative" stackId="a" fill="#ef4444" radius={[4, 4, 0, 0]} />
+                </BarChart>
               </ResponsiveContainer>
             )}
           </div>
