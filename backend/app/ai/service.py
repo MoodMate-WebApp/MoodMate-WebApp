@@ -3,7 +3,13 @@ from typing import Dict, Any
 import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-MODEL_NAME = os.path.join(BASE_DIR, "models")
+LOCAL_MODEL_PATH = os.path.join(BASE_DIR, "models")
+REMOTE_MODEL_NAME = "MoodMate-AI/moodmate-model"
+
+if os.path.exists(os.path.join(LOCAL_MODEL_PATH, "model.safetensors")):
+    MODEL_NAME = LOCAL_MODEL_PATH
+else:
+    MODEL_NAME = REMOTE_MODEL_NAME
 
 # Load model at module level (singleton)
 sentiment_ai = pipeline(  # type: ignore
