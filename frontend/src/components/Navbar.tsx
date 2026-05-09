@@ -108,8 +108,8 @@ export default function Navbar() {
               <Link to="/login" className="hidden sm:flex items-center gap-2 text-slate-500 hover:text-white px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-300">
                  Login
               </Link>
-              <Link to="/signup" className="flex items-center gap-2 bg-white text-dark-900 hover:bg-slate-200 px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all shadow-xl shadow-white/5 hover:shadow-white/10 hover:scale-105 active:scale-95">
-                Get Started <Sparkles className="h-3 w-3 fill-current" />
+              <Link to="/signup" className="flex items-center gap-2 bg-white text-dark-900 hover:bg-slate-200 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] transition-all shadow-xl shadow-white/5 hover:shadow-white/10 hover:scale-105 active:scale-95">
+                Get Started <Sparkles className="h-3 w-3 fill-current hidden xs:block" />
               </Link>
             </div>
           )}

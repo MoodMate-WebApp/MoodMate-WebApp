@@ -156,7 +156,7 @@ export default function Signup() {
 
             <form className="space-y-6 relative z-10" onSubmit={handleSignup}>
               
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                  <div className="space-y-2">
                     <label className="block text-sm font-medium text-slate-300 ml-1">First Name</label>
                     <div className="relative group">
