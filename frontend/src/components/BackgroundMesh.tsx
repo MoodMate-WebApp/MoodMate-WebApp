@@ -7,22 +7,22 @@ export default function BackgroundMesh() {
       <motion.div 
         animate={{ 
           scale: [1, 1.2, 1],
-          opacity: [0.1, 0.2, 0.1],
-          x: ['-10%', '10%', '-10%'],
-          y: ['-10%', '10%', '-10%']
+          opacity: [0.05, 0.15, 0.05],
+          x: ['-20%', '20%', '-20%'],
+          y: ['-20%', '20%', '-20%']
         }}
         transition={{ repeat: Infinity, duration: 20, ease: "easeInOut" }}
-        className="absolute top-0 -left-1/4 w-full h-full rounded-full bg-primary-600/20 blur-[180px]"
+        className="absolute top-0 -left-1/4 w-[80vw] h-[80vw] rounded-full bg-primary-600/10 blur-[120px]"
       />
       <motion.div 
         animate={{ 
           scale: [1.2, 1, 1.2],
-          opacity: [0.1, 0.2, 0.1],
-          x: ['10%', '-10%', '10%'],
-          y: ['10%', '-10%', '10%']
+          opacity: [0.05, 0.15, 0.05],
+          x: ['20%', '-20%', '20%'],
+          y: ['20%', '-20%', '20%']
         }}
         transition={{ repeat: Infinity, duration: 25, ease: "easeInOut" }}
-        className="absolute bottom-0 -right-1/4 w-full h-full rounded-full bg-accent-600/20 blur-[180px]"
+        className="absolute bottom-0 -right-1/4 w-[80vw] h-[80vw] rounded-full bg-accent-600/10 blur-[120px]"
       />
 
       {/* Subtle Grid Pattern Overlay */}

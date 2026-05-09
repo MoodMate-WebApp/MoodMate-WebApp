@@ -31,14 +31,13 @@ const UI_MAPPING: Record<string, any> = {
 function GameAvatar({ ui, isHovered }: { ui: any, isHovered: boolean }) {
   return (
     <div className="relative w-full h-full flex items-center justify-center">
-      {/* Dynamic Background Glow */}
       <motion.div 
         animate={{ 
           scale: isHovered ? [1.1, 1.4, 1.1] : [1, 1.2, 1],
           opacity: isHovered ? [0.5, 0.8, 0.5] : [0.3, 0.5, 0.3]
         }}
         transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-        className="absolute w-48 h-48 rounded-full blur-[70px]"
+        className="absolute w-48 h-48 rounded-full blur-[70px] z-0"
         style={{ backgroundColor: ui.color }}
       />
 
@@ -54,7 +53,7 @@ function GameAvatar({ ui, isHovered }: { ui: any, isHovered: boolean }) {
           y: { repeat: Infinity, duration: 5, ease: "easeInOut" },
           scale: { repeat: Infinity, duration: 4, ease: "easeInOut" }
         }}
-        className="relative w-56 h-56 flex items-center justify-center"
+        className="relative w-56 h-56 flex items-center justify-center z-10"
       >
         <img 
           src={ui.image} 
@@ -119,11 +118,11 @@ export default function Games() {
 
       {/* 2. Optimized Clickable Grid */}
       {loading ? (
-        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
            {[...Array(10)].map((_, i) => <div key={i} className="h-[420px] bg-white/5 rounded-[3rem] animate-pulse" />)}
         </div>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-8 mb-20 relative z-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8 mb-20 relative z-10">
           {catalog.map((game, i) => {
             const ui = UI_MAPPING[game.id] || UI_MAPPING['bubble-burst'];
             return (
@@ -222,20 +221,19 @@ function ZenPlayer({ id, onClose }: { id: string, onClose: () => void }) {
 
   return (
     <motion.div 
-      initial={{ opacity: 0, scale: 1.1 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.9 }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      className="zen-overlay"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[99999] bg-dark-950/98 backdrop-blur-2xl flex flex-col items-center justify-center p-4 sm:p-10"
     >
-      {renderModule()}
-      
       <button 
         onClick={onClose} 
-        className="absolute top-6 right-6 sm:top-10 sm:right-10 w-12 h-12 sm:w-16 sm:h-16 bg-white text-dark-950 rounded-2xl flex items-center justify-center z-[300] hover:bg-slate-200 transition-all shadow-[0_0_30px_rgba(255,255,255,0.3)] active:scale-90"
+        className="fixed top-6 right-6 sm:top-10 sm:right-10 w-12 h-12 sm:w-16 sm:h-16 bg-white text-dark-950 rounded-2xl flex items-center justify-center z-[100000] hover:bg-slate-200 transition-all shadow-[0_0_30px_rgba(255,255,255,0.3)] active:scale-90"
       >
         <X className="w-6 h-6" />
       </button>
+
+      {renderModule()}
 
       <div className="absolute bottom-10 left-1/2 -translate-x-1/2 pointer-events-none text-center opacity-30">
          <p className="text-white text-[10px] font-black uppercase tracking-[1em]">Neuro-Zen Protocol v6.0</p>
