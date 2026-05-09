@@ -1,0 +1,67 @@
+# ==========================================
+# Frontend (Node.js / React / Next / Vite)
+# ==========================================
+node_modules/
+dist/
+dist-ssr/
+build/
+.next/
+out/
+.vite/
+*.local
+
+# ==========================================
+# Backend (Python / FastAPI)
+# ==========================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+backend/app/ai/models/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# ==========================================
+# Environment Variables & Secrets
+# ==========================================
+.env
+.env.*
+!.env.example
+*.pem
+
+# ==========================================
+# OS & Editor Files
+# ==========================================
+.DS_Store
+Thumbs.db
+.idea/
+# Note: .vscode/ is NOT ignored to share workspace settings
+
+# ==========================================
+# Logging & Temporary Files
+# ==========================================
+*.log
+.tempmediaStorage/
+tmp/
+temp/

@@ -1,0 +1,22 @@
+{
+    "css.lint.unknownAtRules": "ignore",
+    "scss.lint.unknownAtRules": "ignore",
+    "liveServer.settings.port": 5502,
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/node_modules": true,
+        "**/venv": true,
+        "**/__pycache__": true,
+        "**/.pytest_cache": true,
+        "frontend/dist": true,
+        "frontend/dist-ssr": true,
+        "frontend/.vite": true,
+        "archive": true
+    },
+    "python-envs.defaultEnvManager": "ms-python.python:system"
+}
