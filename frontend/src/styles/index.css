@@ -14,7 +14,7 @@
   --color-accent-400: #c084fc;
   --color-accent-500: #a855f7;
 
-  --font-family-sans: 'Inter', system-ui, sans-serif;
+  --font-family-sans: 'Plus Jakarta Sans', 'Outfit', system-ui, sans-serif;
 }
 
 @layer base {

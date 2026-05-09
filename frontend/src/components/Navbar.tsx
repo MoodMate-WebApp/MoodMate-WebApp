@@ -21,49 +21,50 @@ export default function Navbar() {
   ].filter(link => !link.restricted || user);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 px-4 py-6 pointer-events-none">
-      <div className="max-w-7xl mx-auto flex items-center justify-between bg-dark-950/60 backdrop-blur-2xl border border-white/5 px-6 py-3 rounded-[1.5rem] shadow-[0_0_50px_rgba(0,0,0,0.5)] pointer-events-auto">
+    <nav className="fixed top-0 left-0 right-0 z-50 px-4 pt-6 pointer-events-none">
+      <div className="max-w-7xl mx-auto flex items-center justify-between bg-dark-950/40 backdrop-blur-3xl border border-white/5 px-6 py-4 rounded-[2rem] shadow-2xl pointer-events-auto transition-all duration-500 hover:border-white/10">
         
         {/* Logo */}
         <div className="flex items-center">
           <Link to="/" className="flex items-center gap-4 group">
-          <div className="relative w-10 h-10 flex items-center justify-center">
-            <motion.div
-              whileHover={{ scale: 1.1, rotate: 5 }}
-              className="relative z-10 w-full h-full"
-            >
-              <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full drop-shadow-[0_0_8px_rgba(99,102,241,0.5)]">
-                <defs>
-                  <linearGradient id="logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#3B82F6" />
-                    <stop offset="50%" stopColor="#8B5CF6" />
-                    <stop offset="100%" stopColor="#D946EF" />
-                  </linearGradient>
-                </defs>
-                <path 
-                  d="M20 75C20 75 20 25 20 25C20 15 30 15 35 25L50 55L65 25C70 15 80 15 80 25C80 25 80 75 80 75" 
-                  stroke="url(#logo-grad)" 
-                  strokeWidth="16" 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </motion.div>
-            <div className="absolute inset-0 bg-primary-500/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-          </div>
-          <span className="text-2xl font-black tracking-tighter text-white">MoodMate</span>
-        </Link>
+            <div className="relative w-12 h-12 flex items-center justify-center">
+              <motion.div
+                whileHover={{ scale: 1.05, rotate: 2 }}
+                whileTap={{ scale: 0.95 }}
+                className="relative z-10 w-full h-full"
+              >
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full drop-shadow-[0_0_12px_rgba(99,102,241,0.6)]">
+                  <defs>
+                    <linearGradient id="logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#818cf8" />
+                      <stop offset="50%" stopColor="#6366f1" />
+                      <stop offset="100%" stopColor="#a855f7" />
+                    </linearGradient>
+                  </defs>
+                  <path 
+                    d="M20 75C20 75 20 25 20 25C20 15 30 15 35 25L50 55L65 25C70 15 80 15 80 25C80 25 80 75 80 75" 
+                    stroke="url(#logo-grad)" 
+                    strokeWidth="16" 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </motion.div>
+              <div className="absolute inset-0 bg-primary-500/30 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+            </div>
+            <span className="text-2xl font-black tracking-tight text-white italic">MoodMate<span className="text-primary-500 not-italic">.</span></span>
+          </Link>
         </div>
         
         {/* Desktop Nav Links */}
-        <div className="hidden lg:flex items-center gap-1">
+        <div className="hidden lg:flex items-center gap-2">
           {navLinks.map((link) => {
             const isActive = location.pathname === link.path;
             return (
               <Link
                 key={link.name}
                 to={link.path}
-                className={`relative px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-[0.2em] transition-all duration-500 ${
+                className={`relative px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-[0.3em] transition-all duration-500 ${
                   isActive ? 'text-white' : 'text-slate-500 hover:text-slate-200'
                 }`}
               >
@@ -71,9 +72,9 @@ export default function Navbar() {
                 {isActive && (
                   <motion.div
                     layoutId="nav-bg"
-                    className="absolute inset-0 bg-white/5 rounded-xl border border-white/5 shadow-[inset_0_0_20px_rgba(255,255,255,0.02)]"
+                    className="absolute inset-0 bg-white/[0.03] rounded-2xl border border-white/5 shadow-inner"
                     initial={false}
-                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 35 }}
                   />
                 )}
               </Link>
@@ -85,31 +86,32 @@ export default function Navbar() {
         <div className="flex items-center gap-4 sm:gap-6">
           {user ? (
             <motion.div 
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="flex items-center gap-4 bg-white/5 hover:bg-white/10 border border-white/5 rounded-2xl px-2 py-1.5 transition-all duration-500 group/profile"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="flex items-center gap-4 group/profile"
             >
-              <div className="hidden sm:flex flex-col items-end mr-3">
-                <span className="text-xs font-bold text-white tracking-tight">{user.user_metadata?.display_name?.split(' ')[0] || 'User'}</span>
-              </div>
-              <Link to="/profile" className="relative">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary-600 via-primary-500 to-accent-500 text-white shadow-lg shadow-primary-600/20 group-hover/profile:scale-110 transition-transform duration-500 overflow-hidden">
+              <Link to="/profile" className="relative flex items-center gap-3 bg-white/[0.03] border border-white/5 rounded-2xl p-1.5 pr-4 hover:border-white/10 transition-all duration-500">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-600 via-primary-500 to-purple-500 text-white shadow-xl shadow-primary-600/10 group-hover/profile:scale-105 transition-transform duration-500 overflow-hidden">
                    <div className="absolute inset-0 bg-white/10 opacity-0 group-hover/profile:opacity-100 transition-opacity" />
-                   <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6 relative z-10" xmlns="http://www.w3.org/2000/svg">
-                     <path d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                     <path d="M6 21V19C6 16.7909 7.79086 15 10 15H14C16.2091 15 18 16.7909 18 19V21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                   <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5 relative z-10" xmlns="http://www.w3.org/2000/svg">
+                     <path d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                     <path d="M6 21V19C6 16.7909 7.79086 15 10 15H14C16.2091 15 18 16.7909 18 19V21" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
                    </svg>
                 </div>
-                <div className="absolute -top-1 -right-1 h-3 w-3 bg-green-500 border-2 border-dark-950 rounded-full" />
+                <div className="flex flex-col">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">Profile</span>
+                  <span className="text-xs font-bold text-white tracking-tight -mt-0.5">{user.user_metadata?.display_name?.split(' ')[0] || 'Member'}</span>
+                </div>
+                <div className="absolute top-2 right-2 h-2 w-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.5)]" />
               </Link>
             </motion.div>
           ) : (
-            <div className="flex items-center gap-2">
-              <Link to="/login" className="hidden sm:flex items-center gap-2 text-slate-500 hover:text-white px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-300">
-                 Login
+            <div className="flex items-center gap-3">
+              <Link to="/login" className="hidden sm:flex items-center gap-2 text-slate-500 hover:text-white px-4 py-2 text-[10px] font-black uppercase tracking-[0.3em] transition-all duration-300">
+                 Auth
               </Link>
-              <Link to="/signup" className="flex items-center gap-2 bg-white text-dark-900 hover:bg-slate-200 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] transition-all shadow-xl shadow-white/5 hover:shadow-white/10 hover:scale-105 active:scale-95">
-                Get Started <Sparkles className="h-3 w-3 fill-current hidden xs:block" />
+              <Link to="/signup" className="flex items-center gap-2 bg-white text-dark-950 hover:bg-slate-100 px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all shadow-2xl hover:scale-105 active:scale-95">
+                Start <Sparkles className="h-3 w-3 fill-current hidden xs:block" />
               </Link>
             </div>
           )}
@@ -117,9 +119,9 @@ export default function Navbar() {
           {/* Mobile Menu Toggle */}
           <button 
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="lg:hidden p-2 text-slate-400 hover:text-white transition-colors"
+            className="lg:hidden p-3 bg-white/5 border border-white/5 rounded-2xl text-slate-400 hover:text-white transition-all active:scale-90"
           >
-            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
       </div>

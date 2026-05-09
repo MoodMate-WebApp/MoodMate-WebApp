@@ -71,40 +71,25 @@ export default function Home() {
   }));
 
   return (
-    <div className="flex flex-col items-center flex-grow min-h-screen relative overflow-hidden bg-dark-900 w-full">
+    <div className="flex flex-col items-center flex-grow min-h-screen relative w-full pt-12 md:pt-20">
       
-      {/* Subtle Animated Background */}
-      <motion.div 
-        animate={{ 
-          backgroundPosition: ['0% 0%', '100% 100%'],
-          opacity: [0.15, 0.3, 0.15]
-        }}
-        transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
-        className="absolute inset-0 pointer-events-none opacity-30"
-        style={{
-          background: 'radial-gradient(circle at 30% 30%, var(--color-primary-600) 0%, transparent 40%), radial-gradient(circle at 70% 70%, var(--color-accent-600) 0%, transparent 40%)',
-          backgroundSize: '200% 200%',
-          filter: 'blur(100px)'
-        }}
-      />
-      
-      <div className="w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12 relative z-10 pt-16 md:pt-20 pb-24 px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-16 relative z-10 pb-24 px-4 sm:px-6 lg:px-8">
         
         {/* Text Content */}
         <div className="flex-1 text-center lg:text-left flex flex-col items-center lg:items-start z-20">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-primary-400 text-xs font-semibold uppercase tracking-wider mb-6 shadow-[0_0_15px_rgba(99,102,241,0.1)]"
+            className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-white/[0.03] border border-white/10 text-primary-400 text-[10px] font-black uppercase tracking-[0.3em] mb-10 shadow-2xl backdrop-blur-md"
           >
+            <div className="w-1.5 h-1.5 rounded-full bg-primary-500 animate-pulse" />
             <span>{t('engineTag')}</span>
-            <Sparkles className="w-3.5 h-3.5" />
           </motion.div>
           
-          <h1 className="text-4xl sm:text-6xl lg:text-[5.5rem] font-black tracking-tighter leading-[0.95] mb-8 text-white text-center lg:text-left">
+          <h1 className="text-5xl sm:text-7xl lg:text-[6.5rem] font-black tracking-tighter leading-[0.9] mb-10 text-white text-center lg:text-left uppercase italic">
             <motion.span
-              initial={{ opacity: 0, x: -30 }}
+              initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
               className="block"
@@ -112,15 +97,15 @@ export default function Home() {
               {t('heroTitle1')}
             </motion.span>
             <motion.span
-              initial={{ opacity: 0, x: -30 }}
+              initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="block text-transparent bg-clip-text bg-gradient-to-r from-primary-400 via-primary-500 to-accent-400 py-2"
+              className="block text-transparent bg-clip-text bg-gradient-to-r from-primary-400 via-primary-500 to-accent-400 py-4 non-italic"
             >
               {t('heroTitle2')}
             </motion.span>
             <motion.span
-              initial={{ opacity: 0, x: -30 }}
+              initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
               className="block"
@@ -130,38 +115,37 @@ export default function Home() {
           </h1>
           
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.8 }}
-            className="text-lg md:text-xl text-slate-400 mb-12 max-w-lg leading-relaxed font-light text-center lg:text-left"
+            className="text-lg md:text-xl text-slate-500 mb-14 max-w-xl leading-relaxed font-medium text-center lg:text-left tracking-wide"
           >
             {t('heroDesc')}
           </motion.p>
           
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 1 }}
-            className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto"
+            className="flex flex-col sm:flex-row items-center gap-6 w-full sm:w-auto"
           >
             {/* Primary Button */}
             <motion.div
-              whileHover={{ scale: 1.02, y: -2 }}
-              whileTap={{ scale: 0.98 }}
-              className="w-full sm:w-auto max-w-sm sm:max-w-none"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-full sm:w-auto"
             >
               {user ? (
                 <Link
                   to="/ai"
-                  className="relative group flex items-center justify-center gap-3 bg-gradient-to-br from-primary-600 to-primary-500 text-white px-10 py-4 rounded-2xl font-black uppercase tracking-widest text-xs transition-all overflow-hidden shadow-[0_0_20px_rgba(99,102,241,0.2)] hover:shadow-primary-500/40 w-full border border-white/10"
+                  className="relative group flex items-center justify-center gap-4 bg-white text-dark-950 px-12 py-5 rounded-[2rem] font-black uppercase tracking-widest text-[10px] transition-all overflow-hidden shadow-2xl hover:bg-primary-500 hover:text-white w-full border border-white/10"
                 >
                   {t('dashboard')} <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/10 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
                 </Link>
               ) : (
                 <Link
                   to="/signup"
-                  className="relative group flex items-center justify-center gap-3 bg-white text-dark-950 px-10 py-4 rounded-2xl font-black uppercase tracking-widest text-xs transition-all overflow-hidden shadow-2xl hover:shadow-white/10 w-full"
+                  className="relative group flex items-center justify-center gap-4 bg-white text-dark-950 px-12 py-5 rounded-[2rem] font-black uppercase tracking-widest text-[10px] transition-all overflow-hidden shadow-2xl hover:bg-slate-100 w-full"
                 >
                   {t('getStarted')} <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
@@ -171,15 +155,15 @@ export default function Home() {
             {/* Secondary Button */}
             {!user && (
               <motion.div
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 className="w-full sm:w-auto"
               >
                 <Link
                   to="/ai"
-                  className="relative group flex items-center justify-center gap-3 bg-dark-800 border border-white/10 text-white px-10 py-4 rounded-2xl font-black uppercase tracking-widest text-xs transition-all hover:bg-dark-700 w-full"
+                  className="relative group flex items-center justify-center gap-4 bg-white/[0.03] backdrop-blur-md border border-white/10 text-white px-12 py-5 rounded-[2rem] font-black uppercase tracking-widest text-[10px] transition-all hover:bg-white/[0.08] w-full"
                 >
-                  Live Demo <Sparkles className="w-3.5 h-3.5 text-accent-400" />
+                  Live Demo <Sparkles className="w-4 h-4 text-primary-400" />
                 </Link>
               </motion.div>
             )}
