@@ -77,6 +77,7 @@ export default function Games() {
   const [catalog, setCatalog] = useState<GameConfig[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeGameId, setActiveGameId] = useState<string | null>(null);
+  const [hoveredGameId, setHoveredGameId] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchCatalog = async () => {
@@ -133,8 +134,8 @@ export default function Games() {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.02, duration: 0.6 }}
                 whileHover={{ y: -10 }}
-                onMouseEnter={() => setActiveGameId(game.id)}
-                onMouseLeave={() => setActiveGameId(null)}
+                onMouseEnter={() => setHoveredGameId(game.id)}
+                onMouseLeave={() => setHoveredGameId(null)}
                 onClick={() => setActiveGameId(game.id)}
                 className="group relative flex flex-col h-[380px] sm:h-[460px] bg-dark-950/40 backdrop-blur-3xl border border-white/5 rounded-[2.5rem] sm:rounded-[3rem] overflow-hidden hover:border-primary-500/50 transition-all duration-700 cursor-pointer shadow-2xl"
               >
@@ -142,7 +143,7 @@ export default function Games() {
                 <div className="relative h-[65%] w-full overflow-hidden flex items-center justify-center">
                    <div className="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                    
-                   <GameAvatar ui={ui} isHovered={activeGameId === game.id} />
+                   <GameAvatar ui={ui} isHovered={hoveredGameId === game.id} />
 
                    <div className="absolute inset-0 bg-gradient-to-t from-dark-950/80 via-transparent to-transparent" />
                 </div>
@@ -231,9 +232,9 @@ function ZenPlayer({ id, onClose }: { id: string, onClose: () => void }) {
       
       <button 
         onClick={onClose} 
-        className="absolute top-10 right-10 w-16 h-16 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center text-white z-[300] hover:bg-white/10 transition-all group"
+        className="absolute top-6 right-6 sm:top-10 sm:right-10 w-12 h-12 sm:w-16 sm:h-16 bg-white text-dark-950 rounded-2xl flex items-center justify-center z-[300] hover:bg-slate-200 transition-all shadow-[0_0_30px_rgba(255,255,255,0.3)] active:scale-90"
       >
-        <X className="w-6 h-6 group-hover:rotate-90 transition-transform duration-500" />
+        <X className="w-6 h-6" />
       </button>
 
       <div className="absolute bottom-10 left-1/2 -translate-x-1/2 pointer-events-none text-center opacity-30">
