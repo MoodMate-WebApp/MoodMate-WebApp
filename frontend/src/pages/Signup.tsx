@@ -6,6 +6,7 @@ import { supabase } from '../lib/supabase';
 import { toast } from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
 import { useEffect } from 'react';
+import BackgroundMesh from '../components/BackgroundMesh';
 
 export default function Signup() {
   const [firstName, setFirstName] = useState('');
@@ -66,15 +67,13 @@ export default function Signup() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#020617] text-slate-200 selection:bg-indigo-500/30 flex items-center justify-center relative overflow-x-hidden font-sans py-12">
+    <div className="min-h-screen w-full selection:bg-primary-500/30 flex items-center justify-center relative overflow-x-hidden font-sans py-12">
+      <BackgroundMesh />
       
-      {/* Background Decorative SVG Curve */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
-        <svg viewBox="0 0 1000 1000" preserveAspectRatio="none" className="absolute inset-0 h-full w-full opacity-40">
-           <path d="M 450 0 Q 300 500 450 1000" stroke="#6366f1" strokeWidth="1" fill="none" />
-           <path d="M 455 0 Q 305 500 455 1000" stroke="#6366f1" strokeWidth="0.5" fill="none" />
-        </svg>
-      </div>
+      {/* Cinematic Ambient Glows */}
+      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary-500/5 blur-[150px] rounded-full translate-x-1/2 -translate-y-1/2 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-accent-500/5 blur-[120px] rounded-full -translate-x-1/2 translate-y-1/2 pointer-events-none" />
+
 
       <div className="w-full max-w-[1440px] mx-auto px-8 lg:px-16 grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 relative z-10 items-center">
         
@@ -101,17 +100,18 @@ export default function Signup() {
           </div>
 
           <div className="relative w-full max-w-[200px] sm:max-w-md aspect-square mb-16 mx-auto lg:mx-0">
-             <div className="absolute inset-0 bg-indigo-600/20 blur-[120px] rounded-full scale-90 pointer-events-none" />
-             <motion.img 
-               layout
-               initial={{ scale: 0.9, opacity: 0 }}
-               animate={{ scale: 1, opacity: 1 }}
-               transition={{ duration: 1 }}
-               src="/brain.png" 
-               alt="Brain" 
-               className="w-full h-full object-contain mix-blend-screen relative z-10 transition-all duration-700" 
-               style={{ animation: 'float 6s ease-in-out infinite' }} 
-             />
+             {/* Brain Image */}
+             <div className="relative z-10 w-[240px] sm:w-[450px] lg:w-full h-full flex items-center justify-center mix-blend-screen overflow-visible" style={{ animation: 'float 6s ease-in-out infinite' }}>
+               <motion.img 
+                 layout
+                 initial={{ scale: 0.9, opacity: 0 }}
+                 animate={{ scale: 1, opacity: 1 }}
+                 transition={{ duration: 1 }}
+                 src="/brain.png" 
+                 alt="Brain" 
+                 className="w-full h-full object-contain mix-blend-screen relative z-10 transition-all duration-700" 
+               />
+             </div>
              
              <div className="absolute top-[20%] left-[-5%] z-20 flex items-center gap-2 bg-[#020617]/90 backdrop-blur-md border border-green-500/30 px-4 py-2 rounded-full shadow-[0_0_20px_rgba(34,197,94,0.15)]">
                 <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center text-[10px]">😊</div>
@@ -153,8 +153,9 @@ export default function Signup() {
         </div>
 
         {/* Right Side: Form */}
-        <div className="flex flex-col justify-center items-center lg:items-end">
-          <div className="w-full max-w-[560px] bg-[#020617]/60 backdrop-blur-3xl border border-indigo-500/20 rounded-[3rem] p-10 lg:p-14 shadow-[0_0_100px_rgba(0,0,0,0.8)] relative overflow-hidden">
+        <div className="flex flex-col justify-center items-center lg:items-end w-full">
+          <div className="w-full max-w-[560px] bg-dark-950/40 backdrop-blur-3xl border border-white/5 rounded-[3rem] p-10 lg:p-14 shadow-2xl relative overflow-hidden">
+
             
             {/* Subtle inner glow */}
             <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-transparent pointer-events-none" />

@@ -153,9 +153,9 @@ export default function Profile() {
   return (
     <div className="flex flex-col w-full relative pt-44 pb-24">
       
-      {/* Background Ambience */}
-      <div className="fixed inset-0 pointer-events-none -z-10 bg-dark-900" />
+      {/* Cinematic Ambient Glows */}
       <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[700px] bg-primary-500/5 blur-[150px] rounded-full -translate-y-1/2 -z-10 pointer-events-none" />
+
 
       {/* Header Area */}
       <div className="mb-14 px-4 sm:px-6 lg:px-8">
@@ -171,13 +171,13 @@ export default function Profile() {
              <button
                 key={item.name}
                 onClick={() => setActiveTab(item.name)}
-                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
+                className={`flex items-center gap-4 px-6 py-4 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-300 ${
                   activeTab === item.name 
-                  ? 'bg-white/5 text-white shadow-sm border border-white/5' 
-                  : 'text-slate-500 hover:text-slate-300 hover:bg-white/[0.02]'
+                  ? 'bg-white text-dark-950 shadow-2xl scale-105' 
+                  : 'text-slate-500 hover:text-slate-200 hover:bg-white/[0.03]'
                 }`}
              >
-                <item.icon className={`w-4 h-4 ${activeTab === item.name ? 'text-primary-400' : 'text-slate-600'}`} />
+                <item.icon className={`w-4 h-4 ${activeTab === item.name ? 'text-primary-500' : 'text-slate-600'}`} />
                 {item.name}
              </button>
            ))}

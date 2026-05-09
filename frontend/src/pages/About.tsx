@@ -36,11 +36,11 @@ const TEAM = [
 ];
 
 const TECH_STACK = [
-  { name: 'FastAPI', icon: Cpu, desc: 'High-performance Python backend' },
-  { name: 'Next.js 15', icon: Globe, desc: 'Ultra-fast React framework' },
-  { name: 'Pydantic v2', icon: ShieldCheck, desc: 'Strict data validation' },
-  { name: 'Framer Motion', icon: Sparkles, desc: 'Cinematic UI animations' },
-  { name: 'PostgreSQL', icon: Layers, desc: 'Robust data persistence' },
+  { name: 'XLM-RoBERTa', icon: Cpu, desc: 'Advanced Multilingual Transformer' },
+  { name: 'FastAPI', icon: Globe, desc: 'High-performance Asynchronous Backend' },
+  { name: 'Vite 6', icon: Rocket, desc: 'Ultra-fast Frontend Bundling' },
+  { name: 'Supabase', icon: ShieldCheck, desc: 'Secure Auth & Realtime Data' },
+  { name: 'Framer Motion', icon: Sparkles, desc: 'Cinematic UI Orchestration' },
 ];
 
 export default function About() {
