@@ -107,10 +107,10 @@ export default function Navbar() {
             </motion.div>
           ) : (
             <div className="flex items-center gap-3">
-              <Link to="/login" className="hidden sm:flex items-center gap-2 text-slate-500 hover:text-white px-4 py-2 text-[10px] font-black uppercase tracking-[0.3em] transition-all duration-300">
+              <Link to="/login" className="hidden md:flex items-center gap-2 text-slate-500 hover:text-white px-4 py-2 text-[10px] font-black uppercase tracking-[0.3em] transition-all duration-300">
                  Auth
               </Link>
-              <Link to="/signup" className="flex items-center gap-2 bg-white text-dark-950 hover:bg-slate-100 px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all shadow-2xl hover:scale-105 active:scale-95">
+              <Link to="/signup" className="flex items-center gap-2 bg-white text-dark-950 hover:bg-slate-100 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] transition-all shadow-2xl hover:scale-105 active:scale-95">
                 Start <Sparkles className="h-3 w-3 fill-current hidden xs:block" />
               </Link>
             </div>

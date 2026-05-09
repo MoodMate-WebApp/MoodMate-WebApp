@@ -136,7 +136,7 @@ export default function Games() {
                 onMouseEnter={() => setActiveGameId(game.id)}
                 onMouseLeave={() => setActiveGameId(null)}
                 onClick={() => setActiveGameId(game.id)}
-                className="group relative flex flex-col h-[460px] bg-dark-950/40 backdrop-blur-3xl border border-white/5 rounded-[3rem] overflow-hidden hover:border-primary-500/50 transition-all duration-700 cursor-pointer shadow-2xl"
+                className="group relative flex flex-col h-[380px] sm:h-[460px] bg-dark-950/40 backdrop-blur-3xl border border-white/5 rounded-[2.5rem] sm:rounded-[3rem] overflow-hidden hover:border-primary-500/50 transition-all duration-700 cursor-pointer shadow-2xl"
               >
                 {/* Visual Area */}
                 <div className="relative h-[65%] w-full overflow-hidden flex items-center justify-center">
@@ -247,43 +247,140 @@ function ZenPlayer({ id, onClose }: { id: string, onClose: () => void }) {
 
 function BubbleBurst() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const requestRef = useRef<number>(0);
+
   useEffect(() => {
-    const canvas = canvasRef.current; if (!canvas) return; const ctx = canvas.getContext('2d')!;
-    let bubbles: any[] = []; let particles: any[] = []; let starfield: any[] = [];
-    const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
-    window.addEventListener('resize', resize); resize();
-    for(let i=0; i<100; i++) starfield.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, r: Math.random() * 1.5 });
-    const createPop = (x: number, y: number, color: string) => {
-      for (let i = 0; i < 12; i++) {
-        particles.push({ x, y, r: Math.random() * 3 + 1, vx: (Math.random() - 0.5) * 15, vy: (Math.random() - 0.5) * 15, life: 1, color });
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d')!;
+    
+    let bubbles: any[] = [];
+    let particles: any[] = [];
+    let starfield: any[] = [];
+    
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      starfield = [];
+      for(let i=0; i<100; i++) {
+        starfield.push({ 
+          x: Math.random() * canvas.width, 
+          y: Math.random() * canvas.height, 
+          r: Math.random() * 1.5 
+        });
       }
     };
-    const draw = () => {
-      ctx.fillStyle = '#000'; ctx.fillRect(0, 0, canvas.width, canvas.height);
-      starfield.forEach(s => { ctx.fillStyle = 'rgba(255,255,255,0.1)'; ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2); ctx.fill(); });
-      if (Math.random() < 0.02 && bubbles.length < 15) bubbles.push({ x: Math.random() * canvas.width, y: canvas.height + 100, r: Math.random() * 60 + 40, vy: -(Math.random() * 1 + 0.5), color: `hsla(${Math.random() * 360}, 80%, 70%, 0.2)`, wobble: 0, wobbleSpeed: Math.random() * 0.05 + 0.02 });
+    
+    window.addEventListener('resize', resize);
+    resize();
+
+    const createPop = (x: number, y: number, color: string) => {
+      for (let i = 0; i < 15; i++) {
+        particles.push({ 
+          x, y, 
+          r: Math.random() * 3 + 1, 
+          vx: (Math.random() - 0.5) * 20, 
+          vy: (Math.random() - 0.5) * 20, 
+          life: 1, 
+          color 
+        });
+      }
+    };
+
+    const animate = () => {
+      ctx.fillStyle = '#000000';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Draw Starfield
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+      starfield.forEach(s => {
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      // Spawn Bubbles (Higher rate)
+      if (Math.random() < 0.04 && bubbles.length < 20) {
+        bubbles.push({
+          x: Math.random() * canvas.width,
+          y: canvas.height + 100,
+          r: Math.random() * 50 + 30,
+          vy: -(Math.random() * 2 + 1),
+          color: `hsla(${Math.random() * 360}, 70%, 60%, 0.4)`,
+          wobble: 0,
+          wobbleSpeed: Math.random() * 0.05 + 0.02
+        });
+      }
+
+      // Update & Draw Bubbles
       bubbles.forEach((b, i) => {
-        b.y += b.vy; b.wobble += b.wobbleSpeed; const currentR = b.r + Math.sin(b.wobble) * 5;
-        const grad = ctx.createRadialGradient(b.x - currentR*0.3, b.y - currentR*0.3, 0, b.x, b.y, currentR);
-        grad.addColorStop(0, 'rgba(255, 255, 255, 0.4)'); grad.addColorStop(0.4, b.color); grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-        ctx.beginPath(); ctx.arc(b.x, b.y, currentR, 0, Math.PI * 2); ctx.fillStyle = grad; ctx.fill();
-        ctx.strokeStyle = 'rgba(255,255,255,0.15)'; ctx.stroke();
+        b.y += b.vy;
+        b.wobble += b.wobbleSpeed;
+        const currentR = b.r + Math.sin(b.wobble) * 5;
+        
+        const grad = ctx.createRadialGradient(b.x - currentR * 0.3, b.y - currentR * 0.3, 0, b.x, b.y, currentR);
+        grad.addColorStop(0, 'rgba(255, 255, 255, 0.6)');
+        grad.addColorStop(0.3, b.color);
+        grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+
+        ctx.beginPath();
+        ctx.arc(b.x, b.y, currentR, 0, Math.PI * 2);
+        ctx.fillStyle = grad;
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
         if (b.y + b.r < -100) bubbles.splice(i, 1);
       });
+
+      // Update & Draw Particles
       particles.forEach((p, i) => {
-        p.x += p.vx; p.y += p.vy; p.vy += 0.2; p.life -= 0.015;
-        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fillStyle = p.color.replace('0.2', p.life); ctx.fill();
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.3;
+        p.life -= 0.02;
+        
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = p.color.replace('0.4', p.life.toString());
+        ctx.fill();
+        
         if (p.life <= 0) particles.splice(i, 1);
       });
-      requestAnimationFrame(draw);
+
+      requestRef.current = requestAnimationFrame(animate);
     };
-    const click = (e: any) => {
-      const x = e.clientX || e.touches?.[0]?.clientX; const y = e.clientY || e.touches?.[0]?.clientY;
-      bubbles.forEach((b, i) => { if (Math.sqrt((x - b.x)**2 + (y - b.y)**2) < b.r) { createPop(b.x, b.y, b.color); bubbles.splice(i, 1); } });
+
+    const handleInput = (e: any) => {
+      const x = e.clientX || (e.touches && e.touches[0].clientX);
+      const y = e.clientY || (e.touches && e.touches[0].clientY);
+      
+      if (!x || !y) return;
+
+      bubbles.forEach((b, i) => {
+        const dist = Math.sqrt((x - b.x) ** 2 + (y - b.y) ** 2);
+        if (dist < b.r + 10) {
+          createPop(b.x, b.y, b.color);
+          bubbles.splice(i, 1);
+        }
+      });
     };
-    canvas.addEventListener('mousedown', click); draw();
-    return () => { window.removeEventListener('resize', resize); canvas.removeEventListener('mousedown', click); };
+
+    canvas.addEventListener('mousedown', handleInput);
+    canvas.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      handleInput(e);
+    });
+
+    animate();
+
+    return () => {
+      window.removeEventListener('resize', resize);
+      cancelAnimationFrame(requestRef.current);
+    };
   }, []);
+
   return <canvas ref={canvasRef} className="experience-canvas" />;
 }
 
@@ -306,60 +403,154 @@ function PranaBreathe() {
 
 function ZenRain() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const requestRef = useRef<number>(0);
+
   useEffect(() => {
-    const canvas = canvasRef.current; if (!canvas) return; const ctx = canvas.getContext('2d')!;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d')!;
+    
     let parts: any[] = [];
-    const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
-    window.addEventListener('resize', resize); resize();
-    const draw = () => {
-      ctx.fillStyle = 'rgba(0,0,0,0.1)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
-      if (parts.length < 150) parts.push({ x: Math.random() * canvas.width, y: -20, vy: Math.random() * 8 + 4, l: Math.random() * 30 + 10 });
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    
+    window.addEventListener('resize', resize);
+    resize();
+
+    const animate = () => {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      if (parts.length < 150) {
+        parts.push({ 
+          x: Math.random() * canvas.width, 
+          y: -20, 
+          vy: Math.random() * 8 + 4, 
+          l: Math.random() * 30 + 10 
+        });
+      }
+
       parts.forEach((p, i) => {
-        p.y += p.vy; ctx.strokeStyle = 'rgba(99, 102, 241, 0.4)'; ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x, p.y + p.l); ctx.stroke();
+        p.y += p.vy;
+        ctx.strokeStyle = 'rgba(99, 102, 241, 0.4)';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(p.x, p.y + p.l);
+        ctx.stroke();
+        
         if (p.y > canvas.height) parts.splice(i, 1);
       });
-      requestAnimationFrame(draw);
+
+      requestRef.current = requestAnimationFrame(animate);
     };
-    draw(); return () => window.removeEventListener('resize', resize);
+
+    animate();
+    return () => {
+      window.removeEventListener('resize', resize);
+      cancelAnimationFrame(requestRef.current);
+    };
   }, []);
+
   return <canvas ref={canvasRef} className="experience-canvas" />;
 }
 
 function MoodCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
-    const canvas = canvasRef.current; if (!canvas) return; const ctx = canvas.getContext('2d')!;
-    const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
-    window.addEventListener('resize', resize); resize();
-    const paint = (e: any) => {
-      const x = e.clientX || e.touches?.[0]?.clientX; const y = e.clientY || e.touches?.[0]?.clientY;
-      ctx.fillStyle = `hsla(${Date.now() / 10 % 360}, 80%, 60%, 0.15)`;
-      ctx.beginPath(); ctx.arc(x, y, 50, 0, Math.PI * 2); ctx.fill();
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d')!;
+    
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     };
-    canvas.addEventListener('mousemove', paint); return () => window.removeEventListener('resize', resize);
+    
+    window.addEventListener('resize', resize);
+    resize();
+
+    const paint = (e: any) => {
+      const x = e.clientX || (e.touches && e.touches[0].clientX);
+      const y = e.clientY || (e.touches && e.touches[0].clientY);
+      if (!x || !y) return;
+
+      ctx.fillStyle = `hsla(${Date.now() / 10 % 360}, 80%, 60%, 0.15)`;
+      ctx.beginPath();
+      ctx.arc(x, y, 50, 0, Math.PI * 2);
+      ctx.fill();
+    };
+
+    canvas.addEventListener('mousemove', paint);
+    canvas.addEventListener('touchmove', (e) => {
+      e.preventDefault();
+      paint(e);
+    });
+
+    return () => window.removeEventListener('resize', resize);
   }, []);
+
   return <canvas ref={canvasRef} className="experience-canvas" />;
 }
 
 function EchoHarmony() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const requestRef = useRef<number>(0);
+
   useEffect(() => {
-    const canvas = canvasRef.current; if (!canvas) return; const ctx = canvas.getContext('2d')!;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d')!;
+    
     let ripples: any[] = [];
-    const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
-    window.addEventListener('resize', resize); resize();
-    const draw = () => {
-      ctx.fillStyle = '#000'; ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ripples.forEach((r, i) => {
-        r.rad += 2; r.op -= 0.01; ctx.beginPath(); ctx.arc(r.x, r.y, r.rad, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(245, 158, 11, ${r.op})`; ctx.stroke(); if (r.op <= 0) ripples.splice(i, 1);
-      });
-      requestAnimationFrame(draw);
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     };
-    const click = (e: any) => ripples.push({ x: e.clientX, y: e.clientY, rad: 0, op: 1 });
-    canvas.addEventListener('mousedown', click); draw();
-    return () => { window.removeEventListener('resize', resize); canvas.removeEventListener('mousedown', click); };
+    
+    window.addEventListener('resize', resize);
+    resize();
+
+    const animate = () => {
+      ctx.fillStyle = '#000000';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ripples.forEach((r, i) => {
+        r.rad += 3;
+        r.op -= 0.015;
+        ctx.beginPath();
+        ctx.arc(r.x, r.y, r.rad, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(245, 158, 11, ${r.op})`;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        
+        if (r.op <= 0) ripples.splice(i, 1);
+      });
+
+      requestRef.current = requestAnimationFrame(animate);
+    };
+
+    const handleInput = (e: any) => {
+      const x = e.clientX || (e.touches && e.touches[0].clientX);
+      const y = e.clientY || (e.touches && e.touches[0].clientY);
+      if (x && y) ripples.push({ x, y, rad: 0, op: 1 });
+    };
+
+    canvas.addEventListener('mousedown', handleInput);
+    canvas.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      handleInput(e);
+    });
+
+    animate();
+    return () => {
+      window.removeEventListener('resize', resize);
+      cancelAnimationFrame(requestRef.current);
+    };
   }, []);
+
   return <canvas ref={canvasRef} className="experience-canvas" />;
 }
 
@@ -402,6 +593,11 @@ function EmotionSort() {
     setItems(prev => prev.filter(i => i.id !== item.id));
     setTimeout(() => setFeedback(null), 1000);
   };
+  
+  const handleTouch = (e: any, item: any, side: 'pos' | 'neg') => {
+    e.preventDefault();
+    handleSort(item, side);
+  };
   if (gameState === 'IDLE') {
     return (
       <div className="h-full flex flex-col items-center justify-center bg-black p-10 text-center">
@@ -425,14 +621,28 @@ function EmotionSort() {
           {feedback && <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} className={`absolute top-1/3 text-4xl font-black z-[20] ${feedback === 'Correct!' ? 'text-green-500' : 'text-red-500'} italic`}>{feedback === 'Correct!' ? 'उत्कृष्ट!' : 'चुकीचे!'}</motion.div>}
        </AnimatePresence>
        <div className="flex-1 w-full relative">
-          {items.map(item => (
-            <motion.div key={item.id} initial={{ y: -50, x: `${item.x}%`, opacity: 0 }} animate={{ y: window.innerHeight + 100, opacity: 1 }} transition={{ duration: 15 / item.speed, ease: "linear" }} className="absolute select-none z-[15]">
-               <div className="flex gap-4">
-                  <button onClick={() => handleSort(item, 'pos')} className="bg-green-500/10 hover:bg-green-500/30 border border-green-500/20 text-green-500 px-4 py-2 rounded-xl text-lg font-bold transition-all backdrop-blur-md whitespace-nowrap">{item.text} 👈</button>
-                  <button onClick={() => handleSort(item, 'neg')} className="bg-red-500/10 hover:bg-red-500/30 border border-red-500/20 text-red-500 px-4 py-2 rounded-xl text-lg font-bold transition-all backdrop-blur-md whitespace-nowrap">👉 {item.text}</button>
-               </div>
-            </motion.div>
-          ))}
+          <AnimatePresence>
+           {items.map(item => (
+             <motion.div key={item.id} initial={{ y: -50, x: `${item.x}%`, opacity: 0 }} animate={{ y: window.innerHeight + 100, opacity: 1 }} transition={{ duration: 15 / item.speed, ease: "linear" }} className="absolute select-none z-[15]">
+                <div className="flex gap-4">
+                   <button 
+                     onClick={() => handleSort(item, 'pos')} 
+                     onTouchStart={(e) => handleTouch(e, item, 'pos')}
+                     className="bg-green-500/10 hover:bg-green-500/30 border border-green-500/20 text-green-500 px-4 py-2 rounded-xl text-lg font-bold transition-all backdrop-blur-md whitespace-nowrap"
+                   >
+                     {item.text} 👈
+                   </button>
+                   <button 
+                     onClick={() => handleSort(item, 'neg')} 
+                     onTouchStart={(e) => handleTouch(e, item, 'neg')}
+                     className="bg-red-500/10 hover:bg-red-500/30 border border-red-500/20 text-red-500 px-4 py-2 rounded-xl text-lg font-bold transition-all backdrop-blur-md whitespace-nowrap"
+                   >
+                     👉 {item.text}
+                   </button>
+                </div>
+             </motion.div>
+           ))}
+        </AnimatePresence>
        </div>
        <div className="grid grid-cols-2 gap-10 w-full max-w-4xl relative z-10 mb-10">
           <div className="h-40 border-2 border-green-500/20 rounded-[3rem] flex flex-col items-center justify-center bg-green-500/[0.02] backdrop-blur-sm">
@@ -450,21 +660,73 @@ function EmotionSort() {
 
 function CelestialDrift() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const requestRef = useRef<number>(0);
+
   useEffect(() => {
-    const canvas = canvasRef.current; if (!canvas) return; const ctx = canvas.getContext('2d')!;
-    let stars: any[] = []; let m = { x: 0, y: 0 };
-    const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
-    window.addEventListener('resize', resize); resize();
-    const draw = () => {
-      ctx.fillStyle = 'rgba(0,0,0,0.05)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
-      if (stars.length < 200) stars.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, r: Math.random() * 1.5, s: Math.random() * 0.02 });
-      stars.forEach(s => { s.x += (m.x - canvas.width/2) * s.s; s.y += (m.y - canvas.height/2) * s.s; ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2); ctx.fill(); });
-      requestAnimationFrame(draw);
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d')!;
+    
+    let stars: any[] = [];
+    let m = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+    
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     };
-    const move = (e: any) => { m.x = e.clientX; m.y = e.clientY; };
-    canvas.addEventListener('mousemove', move); draw();
-    return () => window.removeEventListener('resize', resize);
+    
+    window.addEventListener('resize', resize);
+    resize();
+
+    const animate = () => {
+      ctx.fillStyle = 'rgba(0,0,0,0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      if (stars.length < 200) {
+        stars.push({ 
+          x: Math.random() * canvas.width, 
+          y: Math.random() * canvas.height, 
+          r: Math.random() * 1.5, 
+          s: Math.random() * 0.02 
+        });
+      }
+
+      stars.forEach(s => {
+        s.x += (m.x - canvas.width / 2) * s.s;
+        s.y += (m.y - canvas.height / 2) * s.s;
+        
+        if (s.x < 0) s.x = canvas.width;
+        if (s.x > canvas.width) s.x = 0;
+        if (s.y < 0) s.y = canvas.height;
+        if (s.y > canvas.height) s.y = 0;
+
+        ctx.fillStyle = '#fff';
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      requestRef.current = requestAnimationFrame(animate);
+    };
+
+    const handleMove = (e: any) => {
+      m.x = e.clientX || (e.touches && e.touches[0].clientX);
+      m.y = e.clientY || (e.touches && e.touches[0].clientY);
+    };
+
+    canvas.addEventListener('mousemove', handleMove);
+    canvas.addEventListener('touchmove', (e) => {
+      e.preventDefault();
+      handleMove(e);
+    });
+
+    animate();
+    return () => {
+      window.removeEventListener('resize', resize);
+      cancelAnimationFrame(requestRef.current);
+    };
   }, []);
+
   return <canvas ref={canvasRef} className="experience-canvas" />;
 }
 
@@ -484,19 +746,56 @@ function StarlightConnect() {
 
 function NatureLoop() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const requestRef = useRef<number>(0);
+
   useEffect(() => {
-    const canvas = canvasRef.current; if (!canvas) return; const ctx = canvas.getContext('2d')!;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d')!;
+    
     let blades: any[] = [];
-    const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
-    window.addEventListener('resize', resize); resize();
-    for(let i=0; i<150; i++) blades.push({ x: (i / 150) * canvas.width, h: Math.random() * 100 + 50, angle: 0, speed: Math.random() * 0.02 + 0.01 });
-    const draw = () => {
-      ctx.fillStyle = '#000'; ctx.fillRect(0, 0, canvas.width, canvas.height);
-      blades.forEach(b => { b.angle += b.speed; const sway = Math.sin(b.angle) * 30; ctx.beginPath(); ctx.moveTo(b.x, canvas.height); ctx.quadraticCurveTo(b.x + sway, canvas.height - b.h / 2, b.x + sway/2, canvas.height - b.h); ctx.strokeStyle = `rgba(74, 222, 128, ${0.1 + (b.h/200)})`; ctx.lineWidth = 2; ctx.stroke(); });
-      requestAnimationFrame(draw);
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      blades = [];
+      for(let i=0; i<150; i++) {
+        blades.push({ 
+          x: (i / 150) * canvas.width, 
+          h: Math.random() * 100 + 50, 
+          angle: 0, 
+          speed: Math.random() * 0.02 + 0.01 
+        });
+      }
     };
-    draw(); return () => window.removeEventListener('resize', resize);
+    
+    window.addEventListener('resize', resize);
+    resize();
+
+    const animate = () => {
+      ctx.fillStyle = '#000000';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      blades.forEach(b => {
+        b.angle += b.speed;
+        const sway = Math.sin(b.angle) * 30;
+        ctx.beginPath();
+        ctx.moveTo(b.x, canvas.height);
+        ctx.quadraticCurveTo(b.x + sway, canvas.height - b.h / 2, b.x + sway/2, canvas.height - b.h);
+        ctx.strokeStyle = `rgba(74, 222, 128, ${0.1 + (b.h/200)})`;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      });
+
+      requestRef.current = requestAnimationFrame(animate);
+    };
+
+    animate();
+    return () => {
+      window.removeEventListener('resize', resize);
+      cancelAnimationFrame(requestRef.current);
+    };
   }, []);
+
   return (
     <div className="h-full bg-black relative flex flex-col items-center justify-center overflow-hidden">
        <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />

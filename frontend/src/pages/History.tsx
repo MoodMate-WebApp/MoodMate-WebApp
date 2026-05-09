@@ -244,7 +244,7 @@ export default function History() {
                           </div>
                           
                           <div className="flex-1 min-w-0">
-                            <p className="text-slate-200 text-lg font-medium leading-relaxed mb-1 truncate lg:whitespace-normal line-clamp-2">
+                            <p className="text-slate-200 text-base sm:text-lg font-medium leading-relaxed mb-1 truncate lg:whitespace-normal line-clamp-2">
                                {item.text}
                             </p>
                             <div className="flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">
