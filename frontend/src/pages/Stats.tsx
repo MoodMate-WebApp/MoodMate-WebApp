@@ -198,8 +198,8 @@ export default function Stats() {
                      <Calendar className="w-6 h-6" />
                   </div>
                </div>
-               <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mb-1">Avg. Daily Intensity</p>
-               <h3 className="text-3xl font-black text-white">84<span className="text-xs text-slate-500 font-bold">%</span></h3>
+               <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mb-1">Model Accuracy</p>
+               <h3 className="text-3xl font-black text-white">84.8<span className="text-xs text-slate-500 font-bold">%</span></h3>
             </motion.div>
           </>
         )}
@@ -218,11 +218,11 @@ export default function Stats() {
              <div className="flex items-center gap-4">
                 <div className="w-1 h-8 bg-primary-500 rounded-full" />
                 <div>
-                   <h3 className="text-2xl font-black text-white tracking-tight uppercase italic">Emotion Trends</h3>
+                   <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight uppercase italic">Emotion Trends</h3>
                    <p className="text-slate-500 text-xs font-medium">Historical mood fluctuations</p>
                 </div>
              </div>
-             <div className="flex items-center gap-6">
+             <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
                 <div className="flex items-center gap-2">
                    <div className="w-3 h-3 rounded-full bg-green-500/40 border border-green-500" />
                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Positive</span>
@@ -359,9 +359,9 @@ export default function Stats() {
         viewport={{ once: true }}
         className="w-full bg-dark-950/40 backdrop-blur-3xl border border-white/5 rounded-[3rem] p-10 shadow-2xl overflow-hidden"
       >
-        <div className="flex items-center justify-between mb-10">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-10">
            <div>
-              <h3 className="text-2xl font-black text-white tracking-tight uppercase italic mb-1">Consistency Heatmap</h3>
+              <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight uppercase italic mb-1">Consistency Heatmap</h3>
               <p className="text-slate-500 text-xs font-medium">Tracking your mental check-ins over the last 4 weeks</p>
            </div>
            <div className="flex items-center gap-4">
