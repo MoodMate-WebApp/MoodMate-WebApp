@@ -245,21 +245,22 @@ export default function Stats() {
               <Skeleton height="100%" borderRadius="2rem" />
             ) : (
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={stats?.lineData}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.03)" />
+                <BarChart data={stats?.lineData} barGap={12} barSize={40}>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.05)" />
                   <XAxis 
                     dataKey="dateLabel" 
                     axisLine={false} 
                     tickLine={false} 
-                    tick={{ fill: '#475569', fontSize: 10, fontWeight: 900 }}
-                    dy={20}
+                    tick={{ fill: '#94a3b8', fontSize: 12, fontWeight: 700 }}
+                    dy={15}
                   />
                   <YAxis 
                     axisLine={false} 
                     tickLine={false} 
-                    tick={{ fill: '#475569', fontSize: 10, fontWeight: 900 }}
+                    tick={{ fill: '#64748b', fontSize: 10, fontWeight: 900 }}
                   />
                   <Tooltip 
+                    cursor={{ fill: 'rgba(255,255,255,0.03)' }}
                     content={({ active, payload, label }) => {
                       if (active && payload && payload.length) {
                         return (
