@@ -209,10 +209,20 @@ export default function Home() {
             
             {/* Brain Image */}
             <div className="relative z-10 w-full h-full flex items-center justify-center mix-blend-screen overflow-visible">
-              <img 
+              <motion.img 
+                layout
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ 
+                  scale: [1, 1.05, 1],
+                  opacity: 1
+                }}
+                transition={{
+                  scale: { repeat: Infinity, duration: 8, ease: "easeInOut" },
+                  opacity: { duration: 1 }
+                }}
                 src="/brain.png" 
                 alt="AI Brain" 
-                className="w-full h-full object-contain drop-shadow-[0_0_50px_rgba(99,102,241,0.3)] scale-100 sm:scale-110 lg:scale-125"
+                className="w-full h-full object-contain drop-shadow-[0_0_50px_rgba(99,102,241,0.3)] transition-all duration-700 ease-in-out"
                 style={{ mixBlendMode: 'screen' }}
               />
               
@@ -398,7 +408,7 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-32">
            {[
              { title: "Real-time Processing", desc: "Get emotional insights the moment you finish typing.", icon: Zap },
-             { title: "84.20% Accuracy", desc: "Optimized specifically for Marathi NLP nuances and context.", icon: Target },
+             { title: "84.80% Accuracy", desc: "Optimized specifically for Marathi NLP nuances and context.", icon: Target },
              { title: "Privacy First", desc: "Your data is encrypted and never shared with third parties.", icon: Shield }
            ].map((item, i) => (
              <motion.div

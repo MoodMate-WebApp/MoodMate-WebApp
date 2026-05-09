@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, User, Eye, ShieldCheck, Brain, Zap, BarChart3, CheckCircle2, Loader2 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
@@ -101,7 +102,16 @@ export default function Signup() {
 
           <div className="relative w-full max-w-md aspect-square mb-16 mx-auto lg:mx-0">
              <div className="absolute inset-0 bg-indigo-600/20 blur-[120px] rounded-full scale-90 pointer-events-none" />
-             <img src="/brain.png" alt="Brain" className="w-full h-full object-contain mix-blend-screen relative z-10" style={{ animation: 'float 6s ease-in-out infinite' }} />
+             <motion.img 
+               layout
+               initial={{ scale: 0.9, opacity: 0 }}
+               animate={{ scale: 1, opacity: 1 }}
+               transition={{ duration: 1 }}
+               src="/brain.png" 
+               alt="Brain" 
+               className="w-full h-full object-contain mix-blend-screen relative z-10 transition-all duration-700" 
+               style={{ animation: 'float 6s ease-in-out infinite' }} 
+             />
              
              <div className="absolute top-[20%] left-[-5%] z-20 flex items-center gap-2 bg-[#020617]/90 backdrop-blur-md border border-green-500/30 px-4 py-2 rounded-full shadow-[0_0_20px_rgba(34,197,94,0.15)]">
                 <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center text-[10px]">😊</div>

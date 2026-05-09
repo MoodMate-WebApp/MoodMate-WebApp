@@ -198,10 +198,14 @@ export default function AI() {
         >
            <div className="absolute inset-0 bg-primary-500/20 blur-[100px] rounded-full scale-75 pointer-events-none" />
            
-           <img 
+           <motion.img 
+             layout
+             initial={{ scale: 0.9, opacity: 0 }}
+             animate={{ scale: 1, opacity: 1 }}
+             transition={{ duration: 1, ease: "easeOut" }}
              src="/brain.png" 
              alt="AI Brain" 
-             className="w-full h-full object-contain mix-blend-screen relative z-10 animate-float"
+             className="w-full h-full object-contain mix-blend-screen relative z-10 transition-all duration-700"
              style={{ animation: 'float 6s ease-in-out infinite' }}
            />
 

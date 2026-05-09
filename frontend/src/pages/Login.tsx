@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, Eye, ShieldCheck, Brain, Loader2 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
@@ -85,10 +86,14 @@ export default function Login() {
              <div className="absolute inset-0 bg-indigo-600/20 blur-[120px] rounded-full scale-90 pointer-events-none" />
              
              {/* Brain Image */}
-             <img 
+             <motion.img 
+               layout
+               initial={{ scale: 0.9, opacity: 0 }}
+               animate={{ scale: 1, opacity: 1 }}
+               transition={{ duration: 1 }}
                src="/brain.png" 
                alt="AI Brain" 
-               className="w-full h-full object-contain mix-blend-screen relative z-10"
+               className="w-full h-full object-contain mix-blend-screen relative z-10 transition-all duration-700"
                style={{ animation: 'float 6s ease-in-out infinite' }}
              />
 
