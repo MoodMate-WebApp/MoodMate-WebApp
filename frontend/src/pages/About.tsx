@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { 
   Mail, Lightbulb, Rocket, Brain, Code, Cpu, Globe, 
-  Sparkles, Layers, ShieldCheck, ExternalLink
+  Sparkles, ShieldCheck, ExternalLink
 } from 'lucide-react';
 
 const TEAM = [

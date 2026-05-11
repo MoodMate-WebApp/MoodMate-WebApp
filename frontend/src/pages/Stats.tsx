@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { 
-  PieChart, Pie, Cell, XAxis, YAxis, Tooltip, 
-  ResponsiveContainer, AreaChart, Area, CartesianGrid,
-  BarChart, Bar, Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis
+  XAxis, YAxis, Tooltip, 
+  ResponsiveContainer, CartesianGrid,
+  BarChart, Bar, Radar, RadarChart, PolarGrid, PolarAngleAxis
 } from 'recharts';
 import { BarChart3, Activity, Zap, Heart, Calendar, ArrowUpRight, Info } from 'lucide-react';
 import api from '../services/api';
@@ -21,28 +21,6 @@ interface StatsData {
   weeklyActivity: any[];
   insights: string;
 }
-
-const CustomTooltip = ({ active, payload, label }: any) => {
-  if (active && payload && payload.length) {
-    return (
-      <div className="bg-dark-950/95 backdrop-blur-2xl border border-white/10 p-4 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
-        <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mb-3">{label}</p>
-        <div className="space-y-2">
-          {payload.map((entry: any, index: number) => (
-            <div key={index} className="flex items-center justify-between gap-8">
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: entry.color }} />
-                <span className="text-xs font-bold text-slate-400">{entry.name}</span>
-              </div>
-              <span className="text-xs font-black text-white">{entry.value}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-  return null;
-};
 
 export default function Stats() {
   const [loading, setLoading] = useState(true);
