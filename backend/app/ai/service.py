@@ -131,6 +131,11 @@ def analyze_mood(text: str, language: str = "English") -> Dict[str, Any]:
             "summary": summary_map[sentiment],
             "coping_suggestions": tips_map[sentiment],
             "color_code": COLOR_MAP[sentiment],
+            "probabilities": {
+                "Happy": scores.get("positive", 0.0),
+                "Sad": scores.get("negative", 0.0),
+                "Neutral": scores.get("neutral", 0.0)
+            }
         }
 
     except Exception:

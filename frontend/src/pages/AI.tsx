@@ -18,6 +18,11 @@ interface AnalysisResult {
   summary: string;
   coping_suggestions: string[];
   color_code: string;
+  probabilities?: {
+    Happy: number;
+    Sad: number;
+    Neutral: number;
+  };
   // derived in mapping layer:
   sentimentLabel: string;
   positiveScore: number;
@@ -34,12 +39,13 @@ function mapResult(data: Omit<AnalysisResult, 'sentimentLabel' | 'positiveScore'
   const isPositive = s === 'positive';
   const isNegative = s === 'negative';
 
-  // Derive bar percentages from confidence score
+  // Use real probabilities if available, fallback to derivation for legacy or errors
+  const probs = (data as any).probabilities;
   const dominantPct = Math.round(data.confidence * 100);
   const remainder = 100 - dominantPct;
-  const positiveScore = isPositive ? dominantPct : Math.round(remainder * 0.3);
-  const negativeScore = isNegative ? dominantPct : Math.round(remainder * 0.4);
-  const neutralScore = Math.max(0, 100 - positiveScore - negativeScore);
+  const positiveScore = probs ? Math.round(probs.Happy * 100) : (isPositive ? dominantPct : Math.round(remainder * 0.3));
+  const negativeScore = probs ? Math.round(probs.Sad * 100) : (isNegative ? dominantPct : Math.round(remainder * 0.4));
+  const neutralScore = probs ? Math.round(probs.Neutral * 100) : Math.max(0, 100 - positiveScore - negativeScore);
 
   const colorClass = isPositive ? 'text-green-500' : isNegative ? 'text-red-500' : 'text-yellow-500';
   const glowClass = isPositive
@@ -164,7 +170,7 @@ export default function AI() {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-500/10 border border-primary-500/20 text-primary-400 text-[10px] font-black uppercase tracking-widest mb-6"
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-500/10 border border-primary-500/20 text-primary-400 text-xs font-black uppercase tracking-widest mb-6"
           >
             <Sparkles className="w-3 h-3" />
             <span>{t('engineTag')}</span>
@@ -216,7 +222,7 @@ export default function AI() {
              transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
              className="absolute top-[10%] left-[-5%] sm:left-0 z-20 hidden xs:flex items-center gap-2 bg-dark-800/80 backdrop-blur-md border border-green-500/30 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full shadow-[0_0_20px_rgba(34,197,94,0.2)]"
            >
-              <div className="w-4 h-4 sm:w-5 h-5 rounded-full bg-green-500 flex items-center justify-center text-[8px] sm:text-[10px]">😊</div>
+              <div className="w-4 h-4 sm:w-5 h-5 rounded-full bg-green-500 flex items-center justify-center text-[10px] sm:text-xs">😊</div>
               <span className="text-white text-[10px] sm:text-xs font-bold">Positive</span>
            </motion.div>
 
@@ -225,7 +231,7 @@ export default function AI() {
              transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
              className="absolute top-[5%] right-[-5%] sm:right-0 z-20 hidden xs:flex items-center gap-2 bg-dark-800/80 backdrop-blur-md border border-yellow-500/30 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full shadow-[0_0_20px_rgba(234,179,8,0.2)]"
            >
-              <div className="w-4 h-4 sm:w-5 h-5 rounded-full bg-yellow-500 flex items-center justify-center text-[8px] sm:text-[10px]">😐</div>
+              <div className="w-4 h-4 sm:w-5 h-5 rounded-full bg-yellow-500 flex items-center justify-center text-[10px] sm:text-xs">😐</div>
               <span className="text-white text-[10px] sm:text-xs font-bold">Neutral</span>
            </motion.div>
 
@@ -234,7 +240,7 @@ export default function AI() {
              transition={{ repeat: Infinity, duration: 4.5, ease: "easeInOut" }}
              className="absolute bottom-[15%] right-[-10%] sm:right-[-5%] z-20 hidden xs:flex items-center gap-2 bg-dark-800/80 backdrop-blur-md border border-red-500/30 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full shadow-[0_0_20px_rgba(239,68,68,0.2)]"
            >
-              <div className="w-4 h-4 sm:w-5 h-5 rounded-full bg-red-500 flex items-center justify-center text-[8px] sm:text-[10px]">😔</div>
+              <div className="w-4 h-4 sm:w-5 h-5 rounded-full bg-red-500 flex items-center justify-center text-[10px] sm:text-xs">😔</div>
               <span className="text-white text-[10px] sm:text-xs font-bold">Negative</span>
            </motion.div>
         </motion.div>
@@ -253,7 +259,7 @@ export default function AI() {
            </div>
            <div className="flex items-center gap-2 px-3 py-1 bg-white/5 rounded-lg border border-white/10">
               <div className="w-2 h-2 rounded-full bg-primary-500 animate-pulse" />
-              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Marathi Mode Active</span>
+              <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Marathi Mode Active</span>
            </div>
         </div>
 
@@ -262,8 +268,8 @@ export default function AI() {
             value={text}
             onChange={(e) => setText(e.target.value)}
             disabled={!user && localStorage.getItem('moodmate_trial_used') === 'true'}
-            placeholder={!user && localStorage.getItem('moodmate_trial_used') === 'true' ? "Trial used. Please sign up..." : "मराठीत काहीतरी लिहा (e.g. आज मला खूप आनंद झाला आहे...)"}
-            className="w-full h-56 bg-transparent text-white text-xl placeholder:text-slate-700 resize-none outline-none font-medium leading-relaxed disabled:opacity-50"
+            placeholder={!user && localStorage.getItem('moodmate_trial_used') === 'true' ? "Daily limit reached. Please sign up to continue..." : "मराठीत काहीतरी लिहा (e.g. आज मला खूप आनंद झाला आहे...)"}
+            className="w-full min-h-[12rem] sm:h-56 bg-transparent text-white text-lg sm:text-xl placeholder:text-slate-700 resize-none outline-none font-medium leading-relaxed disabled:opacity-50"
             maxLength={2000}
           />
           
@@ -501,7 +507,7 @@ export default function AI() {
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                     setTimeout(handleClear, 500);
                   }}
-                  className="flex items-center gap-2 text-slate-500 hover:text-white transition-all text-[10px] font-black uppercase tracking-[0.3em]"
+                  className="flex items-center gap-2 text-slate-500 hover:text-white transition-all text-xs font-black uppercase tracking-[0.3em]"
                 >
                   <ArrowDown className="w-3 h-3 rotate-180" /> New Analysis
                 </button>
@@ -523,19 +529,18 @@ export default function AI() {
             <Lightbulb className="w-5 h-5 text-yellow-500 animate-pulse" />
           </div>
           <p className="text-slate-400 text-sm font-light">
-            <span className="text-white font-black uppercase tracking-widest text-[10px] mr-2">Pro Tip:</span> For the most accurate Marathi sentiment detection, try to express yourself in at least 2-3 sentences.
+            <span className="text-white font-black uppercase tracking-widest text-xs mr-2">Pro Tip:</span> For the most accurate Marathi sentiment detection, try to express yourself in at least 2-3 sentences.
           </p>
         </div>
 
-        {/* Waveform Animation */}
+        {/* Waveform Animation — pure CSS, no JS timers */}
         <div className="hidden md:flex items-end gap-1 h-8 relative z-10 opacity-20">
-          {Array.from({ length: 24 }).map((_, i) => (
-            <motion.div
-              key={i}
-              animate={{ height: [4, Math.random() * 24 + 4, 4] }}
-              transition={{ repeat: Infinity, duration: 1, delay: i * 0.05 }}
-              className="w-1 bg-primary-500 rounded-full"
-            />
+          <style>{`
+            @keyframes waveBar { 0%,100%{height:4px} 50%{height:28px} }
+            .wave-bar { width:4px; background:#6366f1; border-radius:2px; animation: waveBar 1.2s ease-in-out infinite; will-change: height; }
+          `}</style>
+          {[0,.1,.2,.3,.15,.25,.05,.35,.2,.1,.3,.15,.25,.05,.35,.2,.1,.3,.15,.25,.05,.3,.1,.2].map((d, i) => (
+            <div key={i} className="wave-bar" style={{ animationDelay: `${d}s` }} />
           ))}
         </div>
       </motion.div>

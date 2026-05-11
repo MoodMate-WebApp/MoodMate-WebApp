@@ -114,15 +114,15 @@ export default function Signup() {
              </div>
              
              <div className="absolute top-[20%] left-[-5%] z-20 flex items-center gap-2 bg-[#020617]/90 backdrop-blur-md border border-green-500/30 px-4 py-2 rounded-full shadow-[0_0_20px_rgba(34,197,94,0.15)]">
-                <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center text-[10px]">😊</div>
+                <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center text-xs">😊</div>
                 <span className="text-white text-xs font-bold">Positive</span>
              </div>
              <div className="absolute top-[15%] right-[5%] z-20 flex items-center gap-2 bg-[#020617]/90 backdrop-blur-md border border-yellow-500/30 px-4 py-2 rounded-full shadow-[0_0_20px_rgba(234,179,8,0.15)]">
-                <div className="w-5 h-5 rounded-full bg-yellow-500 flex items-center justify-center text-[10px]">😐</div>
+                <div className="w-5 h-5 rounded-full bg-yellow-500 flex items-center justify-center text-xs">😐</div>
                 <span className="text-white text-xs font-bold">Neutral</span>
              </div>
              <div className="absolute bottom-[25%] left-[5%] z-20 flex items-center gap-2 bg-[#020617]/90 backdrop-blur-md border border-red-500/30 px-4 py-2 rounded-full shadow-[0_0_20px_rgba(239,68,68,0.15)]">
-                <div className="w-5 h-5 rounded-full bg-red-500 flex items-center justify-center text-[10px]">😔</div>
+                <div className="w-5 h-5 rounded-full bg-red-500 flex items-center justify-center text-xs">😔</div>
                 <span className="text-white text-xs font-bold">Negative</span>
              </div>
 
@@ -227,6 +227,7 @@ export default function Signup() {
                     type="button" 
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white transition-colors"
+                    aria-label={showPassword ? "Hide password" : "Show password"}
                   >
                     <Eye className="w-4.5 h-4.5" />
                   </button>
@@ -253,6 +254,7 @@ export default function Signup() {
                     type="button" 
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                     className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white transition-colors"
+                    aria-label={showConfirmPassword ? "Hide password" : "Show confirm password"}
                   >
                     <Eye className="w-4.5 h-4.5" />
                   </button>
@@ -270,7 +272,7 @@ export default function Signup() {
 
               <div className="flex items-center gap-6 my-10">
                  <div className="h-[1px] bg-white/5 flex-1" />
-                 <span className="text-[10px] font-bold text-slate-600 uppercase tracking-widest">or</span>
+                 <span className="text-xs font-bold text-slate-600 uppercase tracking-widest">or</span>
                  <div className="h-[1px] bg-white/5 flex-1" />
               </div>
 

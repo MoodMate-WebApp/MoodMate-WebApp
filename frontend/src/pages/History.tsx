@@ -237,14 +237,14 @@ export default function History() {
                       {items.map((item) => (
                         <motion.div
                           key={item.id}
-                          className="flex flex-col lg:flex-row items-center gap-6 px-8 py-7 hover:bg-white/[0.03] transition-all group relative"
+                          className="flex flex-col lg:flex-row items-center gap-4 sm:gap-6 px-6 sm:px-8 py-6 sm:py-7 hover:bg-white/[0.03] transition-all group relative"
                         >
                           <div className={`w-14 h-14 rounded-2xl shrink-0 flex items-center justify-center ${item.bg} ${item.color} shadow-inner group-hover:scale-110 transition-transform duration-500`}>
                              <MessageSquare className="w-6 h-6" />
                           </div>
                           
                           <div className="flex-1 min-w-0">
-                            <p className="text-slate-200 text-base sm:text-lg font-medium leading-relaxed mb-1 truncate lg:whitespace-normal line-clamp-2">
+                            <p className="text-slate-200 text-base sm:text-lg font-medium leading-relaxed mb-1 break-words overflow-hidden line-clamp-2">
                                {item.text}
                             </p>
                             <div className="flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">

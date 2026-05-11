@@ -1,57 +1,57 @@
-import { motion } from 'framer-motion';
-
+/**
+ * BackgroundMesh — Performance-optimized version
+ * Uses CSS animations (not Framer Motion) and will-change for GPU compositing.
+ * blur() is applied to static divs; only opacity animates to avoid layout thrash.
+ */
 export default function BackgroundMesh() {
   return (
-    <div className="fixed inset-0 -z-30 overflow-hidden pointer-events-none bg-black">
-      {/* Primary Neural Glows */}
-      <motion.div 
-        animate={{ 
-          scale: [1, 1.2, 1],
-          opacity: [0.05, 0.15, 0.05],
-          x: ['-20%', '20%', '-20%'],
-          y: ['-20%', '20%', '-20%']
-        }}
-        transition={{ repeat: Infinity, duration: 20, ease: "easeInOut" }}
-        className="absolute top-0 -left-1/4 w-[80vw] h-[80vw] rounded-full bg-primary-600/10 blur-[120px]"
-      />
-      <motion.div 
-        animate={{ 
-          scale: [1.2, 1, 1.2],
-          opacity: [0.05, 0.15, 0.05],
-          x: ['20%', '-20%', '20%'],
-          y: ['20%', '-20%', '20%']
-        }}
-        transition={{ repeat: Infinity, duration: 25, ease: "easeInOut" }}
-        className="absolute bottom-0 -right-1/4 w-[80vw] h-[80vw] rounded-full bg-accent-600/10 blur-[120px]"
-      />
+    <div
+      className="fixed inset-0 overflow-hidden pointer-events-none"
+      style={{ zIndex: -1, background: '#000' }}
+    >
+      <style>{`
+        @keyframes glowPulse1 {
+          0%, 100% { opacity: 0.06; transform: scale(1); }
+          50%       { opacity: 0.12; transform: scale(1.08); }
+        }
+        @keyframes glowPulse2 {
+          0%, 100% { opacity: 0.06; transform: scale(1.08); }
+          50%       { opacity: 0.10; transform: scale(1); }
+        }
+        .bg-glow-1 {
+          position: absolute;
+          top: -250px; left: -250px;
+          width: 700px; height: 700px;
+          border-radius: 50%;
+          background: #4f46e5;
+          filter: blur(130px);
+          will-change: opacity, transform;
+          animation: glowPulse1 14s ease-in-out infinite;
+        }
+        .bg-glow-2 {
+          position: absolute;
+          bottom: -250px; right: -250px;
+          width: 600px; height: 600px;
+          border-radius: 50%;
+          background: #7c3aed;
+          filter: blur(150px);
+          will-change: opacity, transform;
+          animation: glowPulse2 20s ease-in-out infinite;
+        }
+      `}</style>
 
-      {/* Subtle Grid Pattern Overlay */}
-      <div className="absolute inset-0 opacity-[0.03]" 
-        style={{ 
-          backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)',
-          backgroundSize: '40px 40px'
-        }} 
-      />
+      <div className="bg-glow-1" />
+      <div className="bg-glow-2" />
 
-      {/* Interactive Mesh Dots (Abstract) */}
-      <div className="absolute inset-0">
-        {[...Array(6)].map((_, i) => (
-          <motion.div
-            key={i}
-            animate={{
-              x: [Math.random() * 100 + '%', Math.random() * 100 + '%'],
-              y: [Math.random() * 100 + '%', Math.random() * 100 + '%'],
-              opacity: [0, 0.1, 0]
-            }}
-            transition={{
-              repeat: Infinity,
-              duration: 15 + Math.random() * 10,
-              ease: "linear"
-            }}
-            className="absolute w-1 h-1 bg-white rounded-full blur-[2px]"
-          />
-        ))}
-      </div>
+      {/* Subtle dot grid — purely CSS, zero JS */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.025) 1px, transparent 1px)',
+          backgroundSize: '40px 40px',
+        }}
+      />
     </div>
   );
 }

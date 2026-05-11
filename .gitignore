@@ -59,9 +59,17 @@ Thumbs.db
 # Note: .vscode/ is NOT ignored to share workspace settings
 
 # ==========================================
-# Logging & Temporary Files
+# Logging, Debugging & Temporary Files
 # ==========================================
 *.log
 .tempmediaStorage/
 tmp/
 temp/
+.antigravity/
+.gemini/
+*.heapsnapshot
+*.network-request
+*.network-response
+trace.json
+trace.json.gz
+heapsnapshot.json

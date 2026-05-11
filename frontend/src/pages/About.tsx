@@ -58,7 +58,7 @@ export default function About() {
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.03] border border-white/10 text-slate-500 text-[10px] font-black uppercase tracking-[0.5em] mb-8"
+          className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.03] border border-white/10 text-slate-500 text-xs font-black uppercase tracking-[0.5em] mb-8"
         >
           <Sparkles className="w-3.5 h-3.5 text-primary-400" />
           <span>Our Mission</span>
@@ -106,9 +106,9 @@ export default function About() {
               </div>
               
               <h3 className="text-xl font-black text-white mb-2 tracking-tight italic">{member.name}</h3>
-              <p className="text-primary-500 text-[10px] font-black uppercase tracking-[0.2em] mb-4">{member.role}</p>
+              <p className="text-primary-500 text-xs font-black uppercase tracking-[0.2em] mb-4">{member.role}</p>
               
-              <p className="text-slate-600 text-[11px] font-medium leading-relaxed mb-8 italic">
+              <p className="text-slate-600 text-xs font-medium leading-relaxed mb-8 italic">
                 Specializing in {member.specialty} to build a more empathic digital world.
               </p>
               
@@ -154,7 +154,7 @@ export default function About() {
 
       {/* 4. Tech Stack Section */}
       <div className="flex flex-col items-center relative z-10">
-        <h3 className="text-[10px] font-black uppercase tracking-[1em] text-slate-700 mb-12">Engineered with Precision</h3>
+        <h3 className="text-xs font-black uppercase tracking-[1em] text-slate-700 mb-12">Engineered with Precision</h3>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 w-full max-w-5xl">
            {TECH_STACK.map((tech, i) => (
              <motion.div 
@@ -166,7 +166,7 @@ export default function About() {
                    <tech.icon className="w-6 h-6" />
                 </div>
                 <span className="text-white text-xs font-black tracking-tight">{tech.name}</span>
-                <span className="text-slate-700 text-[8px] uppercase tracking-widest mt-1 opacity-0 group-hover:opacity-100 transition-opacity">{tech.desc}</span>
+                <span className="text-slate-700 text-[10px] uppercase tracking-widest mt-1 opacity-0 group-hover:opacity-100 transition-opacity">{tech.desc}</span>
              </motion.div>
            ))}
         </div>

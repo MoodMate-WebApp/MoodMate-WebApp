@@ -158,7 +158,7 @@ export default function Stats() {
         ) : (
           <>
             {/* Total Analysis Card */}
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-dark-950/40 backdrop-blur-3xl border border-white/5 p-8 rounded-[2rem] shadow-2xl group hover:border-primary-500/30 transition-all">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-dark-950/40 backdrop-blur-3xl border border-white/5 p-6 sm:p-8 rounded-[2rem] shadow-2xl group hover:border-primary-500/30 transition-all">
                <div className="flex justify-between items-start mb-6">
                   <div className="w-12 h-12 rounded-2xl bg-primary-500/10 flex items-center justify-center text-primary-400">
                      <BarChart3 className="w-6 h-6" />
@@ -172,7 +172,7 @@ export default function Stats() {
             </motion.div>
 
             {/* Streak Card */}
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="bg-dark-950/40 backdrop-blur-3xl border border-white/5 p-8 rounded-[2rem] shadow-2xl group hover:border-orange-500/30 transition-all">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="bg-dark-950/40 backdrop-blur-3xl border border-white/5 p-6 sm:p-8 rounded-[2rem] shadow-2xl group hover:border-orange-500/30 transition-all">
                <div className="flex justify-between items-start mb-6">
                   <div className="w-12 h-12 rounded-2xl bg-orange-500/10 flex items-center justify-center text-orange-400">
                      <Zap className="w-6 h-6" />
@@ -183,7 +183,7 @@ export default function Stats() {
             </motion.div>
 
             {/* Positive Score Card */}
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="bg-dark-950/40 backdrop-blur-3xl border border-white/5 p-8 rounded-[2rem] shadow-2xl group hover:border-green-500/30 transition-all">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="bg-dark-950/40 backdrop-blur-3xl border border-white/5 p-6 sm:p-8 rounded-[2rem] shadow-2xl group hover:border-green-500/30 transition-all">
                <div className="flex justify-between items-start mb-6">
                   <div className="w-12 h-12 rounded-2xl bg-green-500/10 flex items-center justify-center text-green-400">
                      <Heart className="w-6 h-6" />
@@ -194,7 +194,7 @@ export default function Stats() {
             </motion.div>
 
             {/* Prediction Card */}
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="bg-dark-950/40 backdrop-blur-3xl border border-white/5 p-8 rounded-[2rem] shadow-2xl group hover:border-purple-500/30 transition-all">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="bg-dark-950/40 backdrop-blur-3xl border border-white/5 p-6 sm:p-8 rounded-[2rem] shadow-2xl group hover:border-purple-500/30 transition-all">
                <div className="flex justify-between items-start mb-6">
                   <div className="w-12 h-12 rounded-2xl bg-purple-500/10 flex items-center justify-center text-purple-400">
                      <Calendar className="w-6 h-6" />
@@ -244,7 +244,7 @@ export default function Stats() {
             {loading ? (
               <Skeleton height="100%" borderRadius="2rem" />
             ) : (
-              <ResponsiveContainer width="100%" height="100%">
+              <ResponsiveContainer width="100%" height="100%" minWidth={0} debounce={50}>
                 <BarChart data={stats?.lineData} barGap={12} barSize={40}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.05)" />
                   <XAxis 
@@ -304,8 +304,8 @@ export default function Stats() {
               <h3 className="text-xl font-black text-white mb-4 uppercase tracking-tight">Emotional Palette</h3>
               <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-8">Intensity Profile</p>
               
-              <div className="h-[250px] w-full">
-                <ResponsiveContainer width="100%" height="100%">
+              <div className="h-[250px] w-full flex items-center justify-center">
+                <ResponsiveContainer width="100%" height="100%" minWidth={0} debounce={50}>
                   <RadarChart cx="50%" cy="50%" outerRadius="80%" data={stats?.pieData}>
                     <PolarGrid stroke="rgba(255,255,255,0.05)" />
                     <PolarAngleAxis dataKey="name" tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 900 }} />
@@ -348,7 +348,7 @@ export default function Stats() {
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="w-full bg-dark-950/40 backdrop-blur-3xl border border-white/5 rounded-[3rem] p-10 shadow-2xl overflow-hidden"
+        className="w-full bg-dark-950/40 backdrop-blur-3xl border border-white/5 rounded-[3rem] p-6 sm:p-10 shadow-2xl overflow-hidden"
       >
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-10">
            <div>
@@ -366,7 +366,7 @@ export default function Stats() {
            </div>
         </div>
 
-        <div className="flex flex-wrap gap-2 justify-between">
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(2rem,1fr))] gap-2">
            {stats?.weeklyActivity.map((day, i) => (
              <motion.div
                key={i}

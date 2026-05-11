@@ -11,7 +11,7 @@ export default function MainLayout() {
       <BackgroundMesh />
       <Navbar />
       
-      <main className="flex-grow w-full relative z-10">
+      <main className="flex-grow w-full relative">
         <AnimatePresence mode="wait">
           <motion.div
             key={location.pathname}

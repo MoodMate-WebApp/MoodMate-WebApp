@@ -6,7 +6,7 @@ import { useSettings } from '../context/SettingsContext';
 import { useState } from 'react';
 
 export default function Navbar() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const { t } = useSettings();
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -21,7 +21,7 @@ export default function Navbar() {
   ].filter(link => !link.restricted || user);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 px-4 pt-6 pointer-events-none">
+    <nav className="fixed top-0 left-0 right-0 z-50 px-4 pointer-events-none" style={{ paddingTop: 'max(1.5rem, env(safe-area-inset-top, 1.5rem))' }}>
       <div className="max-w-7xl mx-auto flex items-center justify-between bg-dark-950/40 backdrop-blur-3xl border border-white/5 px-6 py-4 rounded-[2rem] shadow-2xl pointer-events-auto transition-all duration-500 hover:border-white/10">
         
         {/* Logo */}
@@ -133,7 +133,7 @@ export default function Navbar() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="absolute top-24 left-4 right-4 bg-dark-950/98 backdrop-blur-3xl border border-white/10 rounded-[2.5rem] p-8 shadow-[0_20px_80px_rgba(0,0,0,0.8)] lg:hidden pointer-events-auto"
+            className="absolute top-[110%] left-4 right-4 bg-dark-950/98 backdrop-blur-3xl border border-white/10 rounded-[2.5rem] p-8 shadow-[0_20px_80px_rgba(0,0,0,0.8)] lg:hidden pointer-events-auto"
           >
             <div className="flex flex-col gap-2">
               {navLinks.map((link) => {
@@ -153,6 +153,36 @@ export default function Navbar() {
                 );
               })}
               
+              {user && (
+                <div className="mt-4 pt-4 border-t border-white/5 flex flex-col gap-2">
+                  <Link 
+                    to="/profile" 
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center gap-4 px-6 py-4 rounded-2xl text-sm font-bold text-slate-400 hover:bg-white/5 hover:text-white"
+                  >
+                    <div className="w-8 h-8 rounded-lg bg-primary-500/10 flex items-center justify-center text-primary-400">
+                      <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M6 21V19C6 16.7909 7.79086 15 10 15H14C16.2091 15 18 16.7909 18 19V21" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </div>
+                    {t('profile') || 'Profile'}
+                  </Link>
+                  <button 
+                    onClick={() => { logout(); setIsMobileMenuOpen(false); }}
+                    className="flex items-center gap-4 px-6 py-4 rounded-2xl text-sm font-bold text-red-500 hover:bg-red-500/5 transition-all"
+                  >
+                    <div className="w-8 h-8 rounded-lg bg-red-500/10 flex items-center justify-center">
+                      <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M16 17L21 12L16 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M21 12H9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </div>
+                    {t('logout')}
+                  </button>
+                </div>
+              )}
               {!user && (
                 <div className="mt-4 pt-4 border-t border-white/5 flex flex-col gap-2">
                   <Link 

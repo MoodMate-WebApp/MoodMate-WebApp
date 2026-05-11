@@ -1,5 +1,6 @@
 import httpx
 import logging
+from fastapi import HTTPException
 from ..core.config import settings
 
 logger = logging.getLogger(__name__)
@@ -22,6 +23,8 @@ class SupabaseClient:
     async def _handle_response(self, response):
         try:
             response.raise_for_status()
+            if response.status_code == 204:
+                return []
             return response.json()
         except httpx.HTTPStatusError as e:
             error_data = {}
@@ -30,9 +33,12 @@ class SupabaseClient:
             except:
                 pass
             
-            message = error_data.get("message") or error_data.get("msg") or e.response.text
+            message = error_data.get("message") or error_data.get("msg") or error_data.get("error_description") or e.response.text
             logger.error(f"Supabase error ({e.response.status_code}): {message}")
-            raise Exception(f"Supabase API error: {message}")
+            raise HTTPException(status_code=e.response.status_code, detail=f"Supabase API error: {message}")
+        except httpx.RequestError as e:
+            logger.error(f"Supabase network error: {str(e)}")
+            raise HTTPException(status_code=503, detail="Database service unavailable")
 
     async def get_entries(self, user_id: str):
         async with httpx.AsyncClient() as client:

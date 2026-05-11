@@ -160,7 +160,13 @@ export default function Login() {
               <div className="space-y-2">
                 <div className="flex items-center justify-between ml-1">
                   <label className="block text-sm font-medium text-slate-300">Password</label>
-                  <a href="#" className="text-xs font-bold text-indigo-400 hover:text-indigo-300 transition-colors uppercase tracking-widest">Forgot Password?</a>
+                  <button 
+                    type="button"
+                    onClick={() => toast.error('Password reset is currently disabled for this demo.')}
+                    className="text-xs font-bold text-indigo-400 hover:text-indigo-300 transition-colors uppercase tracking-widest"
+                  >
+                    Forgot Password?
+                  </button>
                 </div>
                 <div className="relative group">
                   <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:text-white transition-colors" />
@@ -176,6 +182,7 @@ export default function Login() {
                     type="button" 
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white transition-colors"
+                    aria-label={showPassword ? "Hide password" : "Show password"}
                   >
                     <Eye className="w-5 h-5" />
                   </button>
@@ -193,7 +200,7 @@ export default function Login() {
 
               <div className="flex items-center gap-6 my-10">
                  <div className="h-[1px] bg-white/5 flex-1" />
-                 <span className="text-[10px] font-bold text-slate-600 uppercase tracking-widest">or</span>
+                 <span className="text-xs font-bold text-slate-600 uppercase tracking-widest">or</span>
                  <div className="h-[1px] bg-white/5 flex-1" />
               </div>
 

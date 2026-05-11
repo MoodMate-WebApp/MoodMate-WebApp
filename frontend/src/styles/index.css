@@ -71,9 +71,9 @@
     color: var(--text-heading);
   }
 
-  /* Responsive Padding Engine — applies only to pages using pt-44 */
+  /* Responsive Padding Engine — optimized for notch clearance */
   .pt-44 {
-    padding-top: clamp(5rem, 12vh, 10rem);
+    padding-top: clamp(4.5rem, calc(10vh + env(safe-area-inset-top, 0px)), 10rem);
   }
 
   /* Universal Contrast Correction */

@@ -10,6 +10,7 @@ from .api.journal import router as journal_router
 from .api.profile import router as profile_router
 from .api.games import router as games_router
 from .core.ratelimit import setup_ratelimit
+from .core.config import settings
 
 # ---------------- APP INITIALIZATION ----------------
 
@@ -18,12 +19,13 @@ app = FastAPI(
     description="Deep Space Cybernetic Emotional Analytics Platform",
     version="2.1.0"
 )
+setup_ratelimit(app)
 
 # ---------------- CORS CONFIGURATION ----------------
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # In production, replace with specific origins
+    allow_origins=settings.ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

@@ -367,6 +367,49 @@ export default function Profile() {
                       </div>
                    </div>
                 </motion.div>
+              ) : activeTab === 'Notifications' ? (
+                <motion.div key="notifications" initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }} className="space-y-6">
+                   <div className="bg-white/[0.02] border border-white/5 rounded-3xl p-8 shadow-xl">
+                      <h3 className="text-lg font-bold text-white mb-8">Notification Preferences</h3>
+                      <div className="space-y-6">
+                         {[
+                           { id: 'daily', title: 'Daily Reminders', desc: 'Get a nudge to record your mood every day.' },
+                           { id: 'achieve', title: 'Milestones', desc: 'Notifications for streaks and mood improvements.' },
+                           { id: 'product', title: 'Product Updates', desc: 'Stay informed about new features and games.' }
+                         ].map(notif => (
+                           <div key={notif.id} className="flex items-center justify-between p-6 rounded-2xl bg-white/[0.02] border border-white/5">
+                              <div>
+                                 <p className="text-sm font-bold text-white">{notif.title}</p>
+                                 <p className="text-xs text-slate-500 mt-1">{notif.desc}</p>
+                              </div>
+                              <button className="w-12 h-6 rounded-full bg-primary-600 relative p-1 transition-colors">
+                                 <div className="w-4 h-4 bg-white rounded-full shadow-md translate-x-6" />
+                              </button>
+                           </div>
+                         ))}
+                      </div>
+                   </div>
+                </motion.div>
+              ) : activeTab === 'Support' ? (
+                <motion.div key="support" initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }} className="space-y-6">
+                   <div className="bg-white/[0.02] border border-white/5 rounded-3xl p-8 shadow-xl text-center">
+                      <div className="w-20 h-20 rounded-full bg-primary-500/10 flex items-center justify-center text-primary-400 mx-auto mb-6">
+                         <HelpCircle className="w-10 h-10" />
+                      </div>
+                      <h3 className="text-xl font-bold text-white mb-2">Need some help?</h3>
+                      <p className="text-slate-500 text-sm mb-8">Our support team is here for you 24/7 to ensure your wellness journey is smooth.</p>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">
+                         <button className="p-6 rounded-2xl bg-white/[0.03] border border-white/5 hover:border-primary-500/30 transition-all text-left group">
+                            <p className="text-white font-bold mb-1 group-hover:text-primary-400">Documentation</p>
+                            <p className="text-xs text-slate-500">Read our guides and FAQs.</p>
+                         </button>
+                         <button className="p-6 rounded-2xl bg-white/[0.03] border border-white/5 hover:border-primary-500/30 transition-all text-left group">
+                            <p className="text-white font-bold mb-1 group-hover:text-primary-400">Direct Chat</p>
+                            <p className="text-xs text-slate-500">Talk to a real human agent.</p>
+                         </button>
+                      </div>
+                   </div>
+                </motion.div>
               ) : null}
            </AnimatePresence>
         </div>

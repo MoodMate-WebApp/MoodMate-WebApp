@@ -1,0 +1,7 @@
+Always analyze the full file before editing.
+Never remove unrelated functionality.
+Preserve imports and exports.
+Avoid syntax-breaking edits.
+Check TypeScript compatibility.
+Maintain architecture consistency.
+Use clean and scalable code.

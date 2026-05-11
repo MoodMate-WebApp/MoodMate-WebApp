@@ -30,7 +30,6 @@ async def get_current_user(auth: Optional[HTTPAuthorizationCredentials] = Securi
             if response.status_code == 200:
                 return response.json()
             else:
-                print(f"SUPABASE AUTH ERROR: {response.status_code} - {response.text}")
                 # Log specific error if unauthorized
                 if response.status_code == 401:
                     raise HTTPException(
@@ -40,8 +39,7 @@ async def get_current_user(auth: Optional[HTTPAuthorizationCredentials] = Securi
                     )
     except HTTPException:
         raise
-    except Exception as e:
-        print(f"JWT VERIFICATION EXCEPTION: {str(e)}")
+    except Exception:
         pass
         
     raise HTTPException(

@@ -250,7 +250,10 @@ function ZenPlayer({ id, onClose }: { id: string, onClose: () => void }) {
         id="close-game-button"
         onClick={onClose} 
         className="fixed right-4 sm:right-8 w-12 h-12 sm:w-14 sm:h-14 bg-white text-black rounded-full flex items-center justify-center z-[200000] hover:scale-110 active:scale-90 transition-all shadow-2xl border-2 border-primary-500/20"
-        style={{ top: 'max(1.5rem, env(safe-area-inset-top, 1.5rem) + 0.5rem)' }}
+        style={{ 
+          top: 'calc(env(safe-area-inset-top, 0px) + 7rem)',
+          right: 'max(1.5rem, env(safe-area-inset-right, 1.5rem) + 0.5rem)'
+        }}
         aria-label="Exit Game"
       >
         <X className="w-6 h-6 sm:w-7 sm:h-7" strokeWidth={3} />
@@ -373,6 +376,8 @@ function BubbleBurst() {
     animate();
     return () => {
       window.removeEventListener('resize', resize);
+      canvas.removeEventListener('mousedown', handleInput);
+      canvas.removeEventListener('touchstart', handleInput);
       if (requestRef.current) cancelAnimationFrame(requestRef.current);
     };
   }, []);
@@ -391,7 +396,7 @@ function PranaBreathe() {
       <motion.div 
         animate={{ scale: phase === 'Inhale' ? 1.5 : 0.6, opacity: phase === 'Inhale' ? 0.4 : 0.1 }} 
         transition={{ duration: 4, ease: "easeInOut" }} 
-        className="w-96 h-96 bg-teal-500 rounded-full blur-[100px]" 
+        className="w-48 sm:w-96 h-48 sm:h-96 bg-teal-500 rounded-full blur-[100px]" 
       />
       <div className="absolute flex flex-col items-center">
          <motion.h2 
@@ -492,7 +497,6 @@ function MoodCanvas() {
     return () => {
       window.removeEventListener('resize', resize);
       canvas.removeEventListener('mousemove', paint);
-      // @ts-ignore
       canvas.removeEventListener('touchmove', paint);
     };
   }, []);

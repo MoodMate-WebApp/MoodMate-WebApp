@@ -73,7 +73,7 @@ async def get_stats(
                 "negative": negative,
                 "neutral": neutral,
                 "streak": streak,
-                "entries": entries[:10]
+                "entries": entries[:100]
             }
         }
     except Exception as e:
