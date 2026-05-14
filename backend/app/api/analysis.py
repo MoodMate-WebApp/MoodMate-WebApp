@@ -10,7 +10,7 @@ router = APIRouter(tags=["Analysis"])
 
 @router.post("/analyze")
 @limiter.limit("5/minute")
-async def analyze_text(request: AnalyzeRequest, r: Request, user: dict = Depends(get_current_user)):
+async def analyze_text(payload: AnalyzeRequest, request: Request, user: dict = Depends(get_current_user)):
     """
     Authenticated sentiment analysis endpoint.
     Accepts text, returns mood/intensity/confidence/suggestions.
@@ -18,7 +18,7 @@ async def analyze_text(request: AnalyzeRequest, r: Request, user: dict = Depends
     """
     try:
         # Run CPU-bound sync inference in a separate thread
-        return await anyio.to_thread.run_sync(analyze_mood, request.content, request.language)
+        return await anyio.to_thread.run_sync(analyze_mood, payload.content, payload.language)
     except ValueError as e:
         raise HTTPException(status_code=422, detail=str(e))
     except Exception as e:
