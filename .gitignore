@@ -73,3 +73,14 @@ temp/
 trace.json
 trace.json.gz
 heapsnapshot.json
+
+# ==========================================
+# Heavy Model Weights & Tokenizer Checkpoints
+# ==========================================
+*.incomplete
+*.safetensors
+*.bin
+*.model
+*.pt
+*.pth
+.cache/
